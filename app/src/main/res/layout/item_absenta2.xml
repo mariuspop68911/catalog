@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:orientation="horizontal"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/absentaText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_weight="0.5"
+        android:fontFamily="@font/erraserdust"
+        android:gravity="center_vertical"
+        android:text="Nemotivata"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/dataAbsenta"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:fontFamily="@font/erraserdust"
+        android:layout_marginStart="60dp"
+        android:textSize="20sp"
+        android:text="23 apr 2018"
+        android:textColor="@color/white" />
+
+
+</LinearLayout>

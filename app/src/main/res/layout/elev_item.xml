@@ -1,0 +1,89 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_view"
+    android:alpha="0.6"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/alert_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:weightSum="1">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/alert_icon"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_weight="0.1"
+            android:src="@drawable/alert_icon" />
+
+        <TextView
+            android:id="@+id/alertText"
+            android:layout_width="0dp"
+            android:layout_weight="0.9"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:gravity="center_vertical|start"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:fancy="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_weight="0.95"
+            android:gravity="start"
+            android:text="Marius Pop"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/adaugaNota"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                fancy:fb_borderColor="@color/fancy1"
+                fancy:fb_defaultColor="@color/fancy2"
+                fancy:fb_focusColor="@color/fancy3"
+                fancy:fb_radius="30dp"
+                fancy:fb_text="@string/adauga_nota"
+                fancy:fb_textColor="@color/fancy1"
+                fancy:fb_textSize="10sp" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/adaugaAbsenta"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                fancy:fb_borderColor="@color/fancy1"
+                fancy:fb_defaultColor="@color/btn_logut_bg"
+                fancy:fb_focusColor="@color/yellow_warm"
+                fancy:fb_radius="30dp"
+                fancy:fb_text="@string/adauga_absenta"
+                fancy:fb_textColor="@color/fancy1"
+                fancy:fb_textSize="10sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="20dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/editeaza_nr_tel"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/edit1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"/>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/dialogButtonCancel"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            fancy:fb_borderColor="@color/fancy1"
+            fancy:fb_defaultColor="@color/fancy2"
+            fancy:fb_focusColor="@color/fancy3"
+            fancy:fb_radius="30dp"
+            fancy:fb_text="@string/renunta"
+            fancy:fb_textSize="17sp"
+            android:layout_marginTop="20dp"
+            fancy:fb_textColor="@color/fancy1"/>
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/dialogButtonOK"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            fancy:fb_borderColor="@color/fancy1"
+            fancy:fb_defaultColor="@color/fancy2"
+            fancy:fb_focusColor="@color/fancy3"
+            fancy:fb_radius="30dp"
+            fancy:fb_text="OK"
+            fancy:fb_textSize="17sp"
+            android:layout_marginTop="20dp"
+            fancy:fb_textColor="@color/fancy1"/>
+    </android.support.v7.widget.LinearLayoutCompat>
+
+</LinearLayout>

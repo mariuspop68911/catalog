@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/absenta_motiveaza_mesaj"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/dialogButtonCancel"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            fancy:fb_borderColor="@color/fancy1"
+            fancy:fb_defaultColor="@color/fancy2"
+            fancy:fb_focusColor="@color/fancy3"
+            fancy:fb_radius="30dp"
+            fancy:fb_text="@string/renunta"
+            fancy:fb_textColor="@color/fancy1"
+            fancy:fb_textSize="17sp" />
+
+        <View
+            android:layout_width="30dp"
+            android:layout_height="10dp" />
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/dialogButtonOK"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            fancy:fb_borderColor="@color/fancy1"
+            fancy:fb_defaultColor="@color/fancy2"
+            fancy:fb_focusColor="@color/fancy3"
+            fancy:fb_radius="30dp"
+            fancy:fb_text="OK"
+            fancy:fb_textColor="@color/fancy1"
+            fancy:fb_textSize="17sp" />
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1078473224242",
+    "firebase_url": "https://catalog-53bcd.firebaseio.com",
+    "project_id": "catalog-53bcd",
+    "storage_bucket": "catalog-53bcd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1078473224242:android:5084cd526f098373",
+        "android_client_info": {
+          "package_name": "com.example.mariuspop.catalog3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1078473224242-do74j1rint9qn6qa73re79vvrd8aqtrn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDWk0RDVh27FhJbR0YKbrH0CDyAJlLgBE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
