@@ -48,7 +48,7 @@ public class Utils {
     }
 
     public static String getTime(Date date){
-        DateFormat df = new SimpleDateFormat("hh-mm");
+        DateFormat df = new SimpleDateFormat("HH:mm");
         return df.format(date.getTime());
     }
 
@@ -148,6 +148,19 @@ public class Utils {
         dialog.setContentView(layout);
         dialog.setTitle(title);
         return dialog;
+    }
+
+    public static boolean isToday(long smsTimeInMilis) {
+        Calendar smsTime = Calendar.getInstance();
+        smsTime.setTimeInMillis(smsTimeInMilis);
+
+        Calendar now = Calendar.getInstance();
+
+        if (now.get(Calendar.DATE) == smsTime.get(Calendar.DATE) ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

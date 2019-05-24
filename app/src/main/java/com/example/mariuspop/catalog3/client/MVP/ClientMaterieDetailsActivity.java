@@ -26,6 +26,8 @@ import com.example.mariuspop.catalog3.models.mesaje.MesajProf;
 import com.example.mariuspop.catalog3.models.Nota;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
@@ -72,6 +74,13 @@ public class ClientMaterieDetailsActivity extends AppActivity implements ClientM
         ArrayList<Nota> noteByMaterie = ElevManager.getInstance().getNoteByMaterieId(materieId);
         ArrayList<Absenta> absenteByMaterie = ElevManager.getInstance().getAbsenteByMaterieId(materieId);
         ArrayList<MesajProf> mesajeByMaterie = ElevManager.getInstance().getMesajeByMaterieId(materieId);
+        Comparator<MesajProf> compareByDate = new Comparator<MesajProf>() {
+            @Override
+            public int compare(MesajProf o1, MesajProf o2) {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        };
+        Collections.sort(mesajeByMaterie, compareByDate);
 
         final RecyclerView noteRecycleView = findViewById(R.id.elev_lista_note);
         noteRecycleView.setHasFixedSize(true);

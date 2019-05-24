@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.mariuspop.catalog3.AbsenteManager;
 import com.example.mariuspop.catalog3.Constants;
@@ -66,11 +67,11 @@ public class ElevDetailsPresenter implements FirebaseCallbackClientUser, Firebas
         if (clasa != null) {
             handle();
         } else {
-            if (!clasaIdString.isEmpty()) {
+            if (clasaIdString != null && !clasaIdString.isEmpty()) {
                 FirebaseDb.getClasaById(this, Long.valueOf(clasaIdString));
             } else {
-                //TODO handle this case
-
+                clasaIdString = PreferencesManager.getStringFromPrefs(Constants.CURRENT_CLASS);
+                FirebaseDb.getClasaById(this, Long.valueOf(clasaIdString));
             }
         }
     }
@@ -93,9 +94,11 @@ public class ElevDetailsPresenter implements FirebaseCallbackClientUser, Firebas
 
     @Override
     public void onClientUserReceived(ClientUser clientUser) {
-        if (messageForTeacher != null) {
+        if (messageForTeacher != null && clientUser != null) {
             messageForTeacher.setClientToken(clientUser.getToken());
             FirebaseDb.saveClasa(clasa);
+        } else {
+           //Toast.makeText(view.getCheckBox().getContext(), "Mesajul nu a fost trimis. Parintele elevului nu are aplicatia instalata", Toast.LENGTH_LONG).show();
         }
         NotificationManager.getInstance().sendMessageToTeacher(messageForTeacher);
     }

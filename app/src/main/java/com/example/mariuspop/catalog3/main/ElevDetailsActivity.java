@@ -25,6 +25,7 @@ import com.example.mariuspop.catalog3.adapters.NoteAdapter;
 import com.example.mariuspop.catalog3.db.DBHelper;
 import com.example.mariuspop.catalog3.models.Absenta;
 import com.example.mariuspop.catalog3.models.Nota;
+import com.example.mariuspop.catalog3.models.mesaje.MesajProf;
 import com.example.mariuspop.catalog3.wizard.AddManager;
 
 import java.util.ArrayList;
@@ -336,11 +337,19 @@ public class ElevDetailsActivity extends AppActivity implements ElevDetailsView 
         absenteAdapter = new AbsenteAdapter(this, absentas, presenter.getElev());
         absenteRecycleView.setAdapter(absenteAdapter);
 
+        ArrayList<MesajProf> mesajProfs = presenter.getMesajeByMaterie();
+        Comparator<MesajProf> compareByDate = new Comparator<MesajProf>() {
+            @Override
+            public int compare(MesajProf o1, MesajProf o2) {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        };
+        Collections.sort(mesajProfs, compareByDate);
         mesajeRecycleView = findViewById(R.id.mesajeRV);
         mesajeRecycleView.setHasFixedSize(true);
         LinearLayoutManager allms = new LinearLayoutManager(this);
         mesajeRecycleView.setLayoutManager(allms);
-        mesajeAdapter = new MesajeAdapter(this, presenter.getMesajeByMaterie());
+        mesajeAdapter = new MesajeAdapter(this, mesajProfs);
         mesajeRecycleView.setAdapter(mesajeAdapter);
     }
 

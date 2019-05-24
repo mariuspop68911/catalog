@@ -45,4 +45,6 @@ public class Constants {
 
     public static final String ABS_SERIALISABE = "abs_serial";
 
+    public static final String NEWS_SERIALISABE = "news_ser";
+
 }

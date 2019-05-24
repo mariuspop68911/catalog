@@ -9,7 +9,9 @@ import com.example.mariuspop.catalog3.interfaces.FirebaseCallbackClientElev;
 import com.example.mariuspop.catalog3.interfaces.FirebaseCallbackClientUser;
 import com.example.mariuspop.catalog3.interfaces.FirebaseCallbackClientUserByPhoneNumber;
 import com.example.mariuspop.catalog3.interfaces.FirebaseCallbackInstitutie;
+import com.example.mariuspop.catalog3.interfaces.FirebaseCallbackNotifications;
 import com.example.mariuspop.catalog3.interfaces.FirebaseCallbackSms;
+import com.example.mariuspop.catalog3.models.Announcement;
 import com.example.mariuspop.catalog3.models.Clasa;
 import com.example.mariuspop.catalog3.models.ClientUser;
 import com.example.mariuspop.catalog3.models.Elev;
@@ -25,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Objects;
 
 public class FirebaseDb {
@@ -325,6 +328,36 @@ public class FirebaseDb {
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
+                Log.v("TESTLOGG", " ERROR ");
+            }
+        });
+    }
+
+    public static void saveAnnouncement(Announcement announcement) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("notifications/" + Calendar.getInstance().getTime());
+        myRef.setValue(announcement);
+    }
+
+    public static void getNotificationsByClasaId(final FirebaseCallbackNotifications firebaseCallbackNotifications, final long clasaId) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference newMyRef = database.getReference("notifications");
+        newMyRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Announcement> announcements = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Announcement value = snapshot.getValue(Announcement.class);
+                    if (Objects.requireNonNull(value).getClasaId() == clasaId) {
+                        announcements.add(value);
+                    }
+                    Log.v("TESTLOGG", " from db announcements " + value);
+                }
+                firebaseCallbackNotifications.onNotificationsReceived(announcements);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
                 Log.v("TESTLOGG", " ERROR ");
             }
         });

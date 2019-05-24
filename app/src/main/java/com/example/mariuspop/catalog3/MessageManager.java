@@ -11,6 +11,8 @@ public class MessageManager {
     public static MesajProf convertFromMessageForTeacher(MessageForTeacher messageForTeacher) {
         MesajProf mesajProf = new MesajProf();
         mesajProf.setMesajId(Calendar.getInstance().getTimeInMillis());
+        mesajProf.setElevName(messageForTeacher.getElevName());
+        mesajProf.setMaterieName(messageForTeacher.getMaterieName());
         mesajProf.setElevId(Long.valueOf(messageForTeacher.getElevId()));
         mesajProf.setMaterieId(Long.valueOf(messageForTeacher.getMaterieId()));
         mesajProf.setMessage(messageForTeacher.getMessage());

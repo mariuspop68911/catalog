@@ -10,7 +10,13 @@ public class MesajProf  implements Serializable {
     private long materieId;
     private String message;
     private boolean isProf;
+    private String elevName;
+    private String materieName;
     private Date date;
+    private boolean seen;
+
+    public MesajProf() {
+    }
 
     public long getMesajId() {
         return mesajId;
@@ -58,5 +64,29 @@ public class MesajProf  implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getElevName() {
+        return elevName;
+    }
+
+    public void setElevName(String elevName) {
+        this.elevName = elevName;
+    }
+
+    public String getMaterieName() {
+        return materieName;
+    }
+
+    public void setMaterieName(String materieName) {
+        this.materieName = materieName;
+    }
+
+    public boolean isSeen() {
+        return seen;
+    }
+
+    public void setSeen(boolean seen) {
+        this.seen = seen;
     }
 }

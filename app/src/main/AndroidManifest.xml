@@ -97,6 +97,14 @@
             android:name=".main.ClassPerformanceActivity"
             android:label="@string/title_activity_wizard_add"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".main.ScInboxActivity"
+            android:label="@string/title_activity_wizard_add"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".client.ClientInboxActivity"
+            android:label="@string/title_activity_wizard_add"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service
             android:name=".FirebaseFCMService">

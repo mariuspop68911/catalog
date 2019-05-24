@@ -17,11 +17,13 @@ import android.widget.TextView;
 
 import com.example.mariuspop.catalog3.charts.AbsenteOverviewActivity;
 import com.example.mariuspop.catalog3.charts.NotePerformanceActivity;
+import com.example.mariuspop.catalog3.client.ClientInboxActivity;
 import com.example.mariuspop.catalog3.client.MVP.ClientHomeActivity;
 import com.example.mariuspop.catalog3.db.DBHelper;
 import com.example.mariuspop.catalog3.main.ClassPerformanceActivity;
 import com.example.mariuspop.catalog3.main.MateriiActivity;
 import com.example.mariuspop.catalog3.main.ScHomeActivity;
+import com.example.mariuspop.catalog3.main.ScInboxActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
@@ -60,6 +62,7 @@ public abstract class AppActivity extends AppCompatActivity
         TextView emailDrawer = navigationView.getHeaderView(0).findViewById(R.id.email_drawer);
         emailDrawer.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     protected abstract void setToolbarTitle();
@@ -83,7 +86,7 @@ public abstract class AppActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+
         return true;
     }
 
@@ -119,6 +122,9 @@ public abstract class AppActivity extends AppCompatActivity
             } else if (id == R.id.alege_clasa) {
                 Intent intent = new Intent(this, ScHomeActivity.class);
                 startActivity(intent);
+            } else if (id == R.id.mesaje) {
+                Intent intent = new Intent(this, ScInboxActivity.class);
+                startActivity(intent);
             } else if (id == R.id.setari) {
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
@@ -135,6 +141,9 @@ public abstract class AppActivity extends AppCompatActivity
                 startActivity(intent);
             } else if (id == R.id.performante) {
                 Intent intent = new Intent(this, NotePerformanceActivity.class);
+                startActivity(intent);
+            } else if (id == R.id.mesaje) {
+                Intent intent = new Intent(this, ClientInboxActivity.class);
                 startActivity(intent);
             }
         }

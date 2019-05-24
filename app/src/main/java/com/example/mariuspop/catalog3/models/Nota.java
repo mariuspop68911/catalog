@@ -12,6 +12,7 @@ public class Nota implements Serializable {
     private Date data;
     private int value;
     private boolean teza;
+    private boolean seen;
 
     public Nota() {
         notaId = Calendar.getInstance().getTimeInMillis();
@@ -63,5 +64,13 @@ public class Nota implements Serializable {
 
     public void setTeza(boolean teza) {
         this.teza = teza;
+    }
+
+    public boolean isSeen() {
+        return seen;
+    }
+
+    public void setSeen(boolean seen) {
+        this.seen = seen;
     }
 }

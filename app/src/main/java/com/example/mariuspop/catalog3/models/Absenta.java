@@ -13,6 +13,7 @@ public class Absenta implements Serializable {
     private Date data;
     private boolean motivata;
     private boolean pending;
+    private boolean seen;
 
     public Absenta() {
         absentaId = Calendar.getInstance().getTimeInMillis();
@@ -72,5 +73,13 @@ public class Absenta implements Serializable {
 
     public void setPending(boolean pending) {
         this.pending = pending;
+    }
+
+    public boolean isSeen() {
+        return seen;
+    }
+
+    public void setSeen(boolean seen) {
+        this.seen = seen;
     }
 }

@@ -12,4 +12,5 @@ public interface ClientHomeView {
     ListView getAlertList();
     LinearLayout getAlertLyout();
     RelativeLayout getLoadingPanel();
+    void invalidate();
 }

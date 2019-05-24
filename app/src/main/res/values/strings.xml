@@ -11,6 +11,7 @@
     <string name="adauga_elev">Adauga elev</string>
     <string name="adauga_nota">Nota</string>
     <string name="adauga_absenta">Absenta</string>
+    <string name="trimite_anunt">Trimite anunt</string>
     <string name="adauga_sms_gateway_title">SMSGateway</string>
     <string name="adauga_sms_alt_phone_title">Trimite SMS de pe alt telefon</string>
     <string name="motiveaza_absenta">Motiveaza absenta</string>
@@ -21,6 +22,7 @@
     <string name="numele_elevului">Numele elevului</string>
     <string name="introdu_nota">Introdu nota</string>
     <string name="absenta_mesaj">Esti sigur ca vrei sa adaugi o absenta?</string>
+    <string name="anunt_mesaj">O notificare se va trimite catre fiecare parinte al acestei clase. Esti sigur ca vrei sa trimiti anuntul?</string>
     <string name="adauga_sms_gateway">Adauga numarul de telefon al SMSGateway-ului pe care vrei sa il folosesti:</string>
     <string name="adauga_sms_gateway2">Acest device va fi setat ca SMS Gateway(SMS-urile vor fi trimise de pe acest device). Introdu numarul de telfon al acestui device: </string>
     <string name="absenta_motiveaza_mesaj">Esti sigur ca vrei sa motivezi absenta?</string>
@@ -69,6 +71,7 @@
     <string name="motivate">Nemotivate</string>
     <string name="trimite_mesaj">Trimite un mesaj profesorului</string>
     <string name="trimite_mesaj_client">Trimite un mesaj parintelui</string>
+    <string name="trimite_anunt_client">Trimite un anunt parintilor clasei</string>
     <string name="scrie_mesaj">Scrie un mesaj profesorului</string>
     <string name="scrie_mesaj_empty">Mesajul este gol!</string>
     <string name="trimite">Trimite</string>
@@ -94,5 +97,13 @@
     <string name="editeaza_nr_tel">Editeaza numarul de telefon</string>
     <string name="in_asteptare">In asteptare...</string>
     <string name="abs_trimisa">Trimisa</string>
+    <string name="mess">Mesaje</string>
+    <string name="de_la_parinte">De la parintele elevului:</string>
+    <string name="de_la_profesor">De la profesorul de:</string>
+    <string name="pentru_parinte">Pentru parintele elevului:</string>
+    <string name="pentru_profesor">Pentru profesorul de:</string>
+    <string name="de_la_diriginte">De la diriginte</string>
+    <string name="pentru_all">Pentru toti parintii clasei</string>
+    <string name="no_notifications">Nici o notificare</string>
 
 </resources>

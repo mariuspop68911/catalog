@@ -11,6 +11,7 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.SmsManager;
 
+import com.example.mariuspop.catalog3.client.ClientInboxActivity;
 import com.example.mariuspop.catalog3.client.MVP.ClientHomeActivity;
 import com.example.mariuspop.catalog3.client.MVP.ClientMaterieDetailsActivity;
 import com.example.mariuspop.catalog3.client.ElevManager;
@@ -39,59 +40,64 @@ public class FMService extends FirebaseMessagingService implements FirebaseCallb
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         Map<String, String> data = remoteMessage.getData();
-
-        //Log.v("TESTLOGG", "FIREBASE From: " + remoteMessage.getData().get("text"));
-        if (Constants.IS_SMS_GATEWAY) {
-            //SmsManager sms = SmsManager.getDefault();
-            //sms.sendTextMessage(remoteMessage.getData().get("phoneNo"), null, remoteMessage.getData().get("text"), null, null);
-            if (remoteMessage.getData().get("text").length() > 160) {
-                String half1 = remoteMessage.getData().get("text").substring(0, remoteMessage.getData().get("text").length() / 2);
-                String half2 = remoteMessage.getData().get("text").substring(remoteMessage.getData().get("text").length() / 2);
-                ArrayList<String> parts = new ArrayList<>();
-                parts.add(half1);
-                parts.add(half2);
-                SmsManager.getDefault().sendMultipartTextMessage(remoteMessage.getData().get("phoneNo"), null, parts, null, null);
+        if (!data.isEmpty()) {
+            //Log.v("TESTLOGG", "FIREBASE From: " + remoteMessage.getData().get("text"));
+            if (Constants.IS_SMS_GATEWAY) {
+                //SmsManager sms = SmsManager.getDefault();
+                //sms.sendTextMessage(remoteMessage.getData().get("phoneNo"), null, remoteMessage.getData().get("text"), null, null);
+                if (remoteMessage.getData().get("text").length() > 160) {
+                    String half1 = remoteMessage.getData().get("text").substring(0, remoteMessage.getData().get("text").length() / 2);
+                    String half2 = remoteMessage.getData().get("text").substring(remoteMessage.getData().get("text").length() / 2);
+                    ArrayList<String> parts = new ArrayList<>();
+                    parts.add(half1);
+                    parts.add(half2);
+                    SmsManager.getDefault().sendMultipartTextMessage(remoteMessage.getData().get("phoneNo"), null, parts, null, null);
+                } else {
+                    SmsManager.getDefault().sendTextMessage(remoteMessage.getData().get("phoneNo"), null, remoteMessage.getData().get("text"), null, null);
+                }
+            } else if (data.get("text") != null && !data.get("text").isEmpty()) {
+                Intent notificationIntent = new Intent(this, ClientHomeActivity.class);
+                PendingIntent pendingIn = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+                sendNotification("Notificare de la liceu", data.get("text"), pendingIn);
             } else {
-                SmsManager.getDefault().sendTextMessage(remoteMessage.getData().get("phoneNo"), null, remoteMessage.getData().get("text"), null, null);
+                messageForTeacher = new MessageForTeacher();
+                messageForTeacher.setClasaId(data.get("clasaId"));
+                messageForTeacher.setElevId(data.get("elevId"));
+                messageForTeacher.setElevName(data.get("elevName"));
+                messageForTeacher.setTeacherToken(data.get("teacherToken"));
+                messageForTeacher.setMessage(data.get("message"));
+                messageForTeacher.setMaterieName(data.get("materieName"));
+                messageForTeacher.setMaterieId(data.get("materieId"));
+                messageForTeacher.setProf(data.get("prof"));
+                messageForTeacher.setClientToken(data.get("clientToken"));
+
+                String title = "";
+                PendingIntent pendingIn;
+                if (Objects.requireNonNull(data.get("prof")).equals(Constants.MESSAGE_TEACHER_IS_FROM_CLIENT)) {
+                    Intent notificationIntent = new Intent(this, ElevDetailsActivity.class);
+                    notificationIntent.putExtra(Constants.MATERIE_ID, Long.valueOf(Objects.requireNonNull(data.get("materieId"))));
+                    notificationIntent.putExtra(Constants.ELEV_ID, Long.valueOf(Objects.requireNonNull(data.get("elevId"))));
+                    notificationIntent.putExtra(Constants.CLASA_ID, Long.valueOf(Objects.requireNonNull(data.get("clasaId"))));
+                    pendingIn = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+                    title = "Mesaj de la parintele elevului " + remoteMessage.getData().get("elevName")
+                            + " pentru profesorul de " + remoteMessage.getData().get("materieName") + ": ";
+                    FirebaseDb.getClasaById(this, Long.valueOf(remoteMessage.getData().get("clasaId")));
+                } else {
+                    Intent notificationIntent = new Intent(this, ClientMaterieDetailsActivity.class);
+                    notificationIntent.putExtra(Constants.MATERIE_ID, Long.valueOf(Objects.requireNonNull(data.get("materieId"))));
+                    notificationIntent.putExtra(Constants.ELEV_ID, Long.valueOf(Objects.requireNonNull(data.get("elevId"))));
+                    notificationIntent.putExtra(Constants.CLASA_ID, Long.valueOf(Objects.requireNonNull(data.get("clasaId"))));
+                    notificationIntent.putExtra(Constants.MATERIE_NUME, Objects.requireNonNull(data.get("materieName")));
+                    pendingIn = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+                    title = "Mesaj de la profesorul de " + remoteMessage.getData().get("materieName") + ": ";
+                    FirebaseDb.getClasaById(this, Long.valueOf(remoteMessage.getData().get("clasaId")));
+                }
+                sendNotification(title, remoteMessage.getData().get("message"), pendingIn);
             }
-        } else if (data.get("text") != null && !data.get("text").isEmpty()) {
-            Intent notificationIntent = new Intent(this, ClientHomeActivity.class);
+        } else if (remoteMessage.getNotification() != null) {
+            Intent notificationIntent = new Intent(this, ClientInboxActivity.class);
             PendingIntent pendingIn = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
-            sendNotification("Notificare de la liceu", data.get("text"), pendingIn);
-        } else {
-            messageForTeacher = new MessageForTeacher();
-            messageForTeacher.setClasaId(data.get("clasaId"));
-            messageForTeacher.setElevId(data.get("elevId"));
-            messageForTeacher.setElevName(data.get("elevName"));
-            messageForTeacher.setTeacherToken(data.get("teacherToken"));
-            messageForTeacher.setMessage(data.get("message"));
-            messageForTeacher.setMaterieName(data.get("materieName"));
-            messageForTeacher.setMaterieId(data.get("materieId"));
-            messageForTeacher.setProf(data.get("prof"));
-            messageForTeacher.setClientToken(data.get("clientToken"));
-
-            String title = "";
-            PendingIntent pendingIn;
-            if (Objects.requireNonNull(data.get("prof")).equals(Constants.MESSAGE_TEACHER_IS_FROM_CLIENT)) {
-                Intent notificationIntent = new Intent(this, ElevDetailsActivity.class);
-                notificationIntent.putExtra(Constants.MATERIE_ID, Long.valueOf(Objects.requireNonNull(data.get("materieId"))));
-                notificationIntent.putExtra(Constants.ELEV_ID, Long.valueOf(Objects.requireNonNull(data.get("elevId"))));
-                notificationIntent.putExtra(Constants.CLASA_ID, Long.valueOf(Objects.requireNonNull(data.get("clasaId"))));
-                pendingIn = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
-                title = "Mesaj de la parintele elevului " + remoteMessage.getData().get("elevName")
-                        + " pentru profesorul de " + remoteMessage.getData().get("materieName") + ": ";
-                FirebaseDb.getClasaById(this, Long.valueOf(remoteMessage.getData().get("clasaId")));
-            } else {
-                Intent notificationIntent = new Intent(this, ClientMaterieDetailsActivity.class);
-                notificationIntent.putExtra(Constants.MATERIE_ID, Long.valueOf(Objects.requireNonNull(data.get("materieId"))));
-                notificationIntent.putExtra(Constants.ELEV_ID, Long.valueOf(Objects.requireNonNull(data.get("elevId"))));
-                notificationIntent.putExtra(Constants.CLASA_ID, Long.valueOf(Objects.requireNonNull(data.get("clasaId"))));
-                notificationIntent.putExtra(Constants.MATERIE_NUME, Objects.requireNonNull(data.get("materieName")));
-                pendingIn = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
-                title = "Mesaj de la profesorul de " + remoteMessage.getData().get("materieName") + ": ";
-                FirebaseDb.getClasaById(this, Long.valueOf(remoteMessage.getData().get("clasaId")));
-            }
-            sendNotification(title, remoteMessage.getData().get("message"), pendingIn);
+            sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(), pendingIn);
         }
 
         // ...

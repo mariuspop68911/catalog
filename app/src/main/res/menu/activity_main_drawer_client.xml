@@ -16,6 +16,10 @@
             android:id="@+id/performante"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/performante" />
+        <item
+            android:id="@+id/mesaje"
+            android:icon="@drawable/ic_menu_send"
+            android:title="@string/mess" />
 
     </group>
 

@@ -17,6 +17,10 @@
             android:id="@+id/alege_clasa"
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/alege_clasa" />
+        <item
+            android:id="@+id/mesaje"
+            android:icon="@drawable/ic_menu_send"
+            android:title="@string/mess" />
     </group>
 
     <item android:title="">

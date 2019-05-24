@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/tabla"
+    android:scaleType="centerCrop">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/inbox_lista"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mesaje_text"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="80dp"/>
+
+    <LinearLayout
+        android:id="@+id/layout_chatbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:animateLayoutChanges="true"
+        android:gravity="center"
+        android:weightSum="1">
+
+        <EditText
+            android:id="@+id/send_edittext"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="0.8"
+            android:alpha="0.5"
+            android:background="@drawable/rounded_edittext"
+            android:gravity="center"
+            android:hint="@string/trimite_anunt_client" />
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/button_chatbox_send"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:textSize="14dp"
+            android:layout_marginEnd="10dp"
+            android:visibility="gone"
+            fancy:fb_borderColor="@color/fancy1"
+            fancy:fb_defaultColor="@color/fancy2"
+            fancy:fb_focusColor="@color/fancy3"
+            fancy:fb_radius="30dp"
+            fancy:fb_text="@string/trimite"
+            fancy:fb_textColor="@color/fancy1"
+            fancy:fb_textSize="17sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

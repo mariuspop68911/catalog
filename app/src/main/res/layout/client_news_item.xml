@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/list_view_green"
+    android:padding="10dp"
+    android:alpha="0.8"
+    android:weightSum="1">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/alert_icon"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_weight="0.1"
+            android:src="@drawable/information" />
+
+        <TextView
+            android:id="@+id/alertText"
+            android:layout_width="0dp"
+            android:layout_weight="0.9"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_gravity="center"
+            android:text="Elevul are 3 absente"
+            android:textColor="@color/black"/>
+
+</LinearLayout>
