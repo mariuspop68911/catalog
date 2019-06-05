@@ -23,7 +23,7 @@ public class MyReceiver extends BroadcastReceiver {
         Clasa clasa = AddManager.getInstance().getClasa();
         for (Elev elev : clasa.getElevi()) {
             if(elev.getElevId() == absentaMessageWrapper.getElevId()){
-                for (Absenta absenta : elev.getAbsente()) {
+                for (Absenta absenta : Utils.getAbsenteByYear(elev)) {
                     if (absenta.getAbsentaId() == absentaMessageWrapper.getAbsenta().getAbsentaId()) {
                         absenta.setPending(false);
                     }

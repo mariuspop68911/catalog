@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.SEND_SMS"/>
 
     <application android:name=".MyApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -103,6 +103,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".client.ClientInboxActivity"
+            android:label="@string/title_activity_wizard_add"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".wizard.NewYearActivity"
             android:label="@string/title_activity_wizard_add"
             android:theme="@style/AppTheme.NoActionBar" />
 

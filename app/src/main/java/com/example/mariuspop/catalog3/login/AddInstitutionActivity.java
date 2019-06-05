@@ -14,6 +14,7 @@ import com.example.mariuspop.catalog3.R;
 import com.example.mariuspop.catalog3.main.MateriiActivity;
 import com.example.mariuspop.catalog3.models.Institutie;
 import com.example.mariuspop.catalog3.models.ScUser;
+import com.example.mariuspop.catalog3.wizard.WizardAddClassesActivity;
 import com.firebase.ui.auth.data.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,7 +55,7 @@ public class AddInstitutionActivity extends AppCompatActivity {
                     user.setInstituteId(institutie.getInstitutieId());
                     user.setInstituteName(institutie.getNume());
                     FirebaseDb.saveUser(user);
-                    NavigationManager.navigateToActivity(context, MateriiActivity.class);
+                    NavigationManager.navigateToActivity(context, WizardAddClassesActivity.class);
                 } else {
                     Toast.makeText(context, getResources().getString(R.string.hint_inst), Toast.LENGTH_SHORT).show();
                 }

@@ -13,10 +13,10 @@
             android:id="@+id/situatie_generala"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/situatie_clasa" />
-        <item
+    <!--    <item
             android:id="@+id/alege_clasa"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/alege_clasa" />
+            android:title="@string/alege_clasa" />-->
         <item
             android:id="@+id/mesaje"
             android:icon="@drawable/ic_menu_send"

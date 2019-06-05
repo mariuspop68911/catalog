@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 
 import com.example.mariuspop.catalog3.FirebaseDb;
+import com.example.mariuspop.catalog3.FirebaseRm;
 import com.example.mariuspop.catalog3.NavigationManager;
 import com.example.mariuspop.catalog3.R;
 import com.example.mariuspop.catalog3.Utils;
@@ -143,8 +144,8 @@ public class NotePerformancePresenter implements FirebaseCallbackClasaById {
 
     private ArrayList<MediiWrapper> getMediiWrapers(Clasa clasa) {
         ArrayList<MediiWrapper> mediiWrappers = new ArrayList<>();
-        for (Materie materie : clasa.getMaterii()) {
-            String media = Utils.computeMedie(ElevManager.getInstance().getNoteByMaterieId(materie.getMaterieId()));
+        for (Materie materie : Utils.getMateriiByThisYear(clasa)) {
+            String media = Utils.computeMedie(ElevManager.getInstance().getNoteByMaterieId(materie.getMaterieId(), FirebaseRm.getCurrentSemesterForced()));
             MediiWrapper mediiWrapper = new MediiWrapper();
             mediiWrapper.setMedie(Double.valueOf(media));
             mediiWrapper.setNumeMaterie(materie.getName());

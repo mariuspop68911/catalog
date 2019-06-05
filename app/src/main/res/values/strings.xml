@@ -8,6 +8,7 @@
     <string name="action_settings">Settings</string>
     <string name="adauga_clasa">Adauga clasa</string>
     <string name="adauga_materie">Adauga materie</string>
+    <string name="adauga_materie_ny">Adauga toate materiile din acest an</string>
     <string name="adauga_elev">Adauga elev</string>
     <string name="adauga_nota">Nota</string>
     <string name="adauga_absenta">Absenta</string>
@@ -16,7 +17,8 @@
     <string name="adauga_sms_alt_phone_title">Trimite SMS de pe alt telefon</string>
     <string name="motiveaza_absenta">Motiveaza absenta</string>
     <string name="anuleaza_absenta">Anuleaza absenta</string>
-    <string name="numele_clasei">Numele clasei</string>
+    <string name="numele_clasei">Numele clasei - ex: 9B</string>
+    <string name="numele_clasei_new_year">Numele clasei - ex: 9B va deveni 10B</string>
     <string name="numele_institute">Numele unitatii scolare</string>
     <string name="numele_materiei">Numele materiei</string>
     <string name="numele_elevului">Numele elevului</string>
@@ -75,6 +77,7 @@
     <string name="scrie_mesaj">Scrie un mesaj profesorului</string>
     <string name="scrie_mesaj_empty">Mesajul este gol!</string>
     <string name="trimite">Trimite</string>
+    <string name="configureaza">Configureaza</string>
     <string name="situatia_abs">Situatia absentelor</string>
     <string name="performante">Performante</string>
     <string name="refresh">Refresh</string>
@@ -105,5 +108,8 @@
     <string name="de_la_diriginte">De la diriginte</string>
     <string name="pentru_all">Pentru toti parintii clasei</string>
     <string name="no_notifications">Nici o notificare</string>
+    <string name="alege_semestru">Alege semestrul curent:</string>
+    <string name="din_pana">Din %s pana in %s</string>
+
 
 </resources>

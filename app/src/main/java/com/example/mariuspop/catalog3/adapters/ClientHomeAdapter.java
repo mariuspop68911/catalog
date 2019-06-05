@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.mariuspop.catalog3.Constants;
+import com.example.mariuspop.catalog3.FirebaseRm;
 import com.example.mariuspop.catalog3.R;
 import com.example.mariuspop.catalog3.client.MVP.ClientMaterieDetailsActivity;
 import com.example.mariuspop.catalog3.client.ElevManager;
@@ -66,8 +67,8 @@ public class ClientHomeAdapter extends ArrayAdapter<Materie> {
 
         long materieId = Objects.requireNonNull(materie).getMaterieId();
 
-        ArrayList<Nota> noteByMaterie = ElevManager.getInstance().getNoteByMaterieId(materieId);
-        ArrayList<Absenta> absenteByMaterie = ElevManager.getInstance().getAbsenteByMaterieId(materieId);
+        ArrayList<Nota> noteByMaterie = ElevManager.getInstance().getNoteByMaterieId(materieId, FirebaseRm.getCurrentSemesterForced());
+        ArrayList<Absenta> absenteByMaterie = ElevManager.getInstance().getAbsenteByMaterieId(materieId, FirebaseRm.getCurrentSemesterForced());
 
         if (noteByMaterie.size() > 0 || absenteByMaterie.size() > 0) {
             viewHolder.contentLayout.setVisibility(View.VISIBLE);

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.example.mariuspop.catalog3.AppActivity;
 import com.example.mariuspop.catalog3.R;
@@ -51,7 +50,7 @@ public class ClassPerformanceActivity extends AppActivity implements ClassPerfor
         if (clasa != null) {
             ArrayList<MediiEleviWrapper> mediiEleviWrappers = new ArrayList<>();
             for (Elev elev : clasa.getElevi()) {
-                if (!elev.getNote().isEmpty()) {
+                if (!Utils.getNoteByYear(elev).isEmpty()) {
                     MediiEleviWrapper mediiEleviWrapper = new MediiEleviWrapper();
                     mediiEleviWrapper.setNumeElev(elev.getName());
                     mediiEleviWrapper.setMedie(Double.valueOf(Utils.getMedieGenerala(AddManager.getInstance().getClasa(), elev)));
@@ -77,9 +76,9 @@ public class ClassPerformanceActivity extends AppActivity implements ClassPerfor
 
             ArrayList<AbsenteWrapper> eleviWithAbs = new ArrayList<>();
             for (Elev elev : clasa.getElevi()) {
-                if (!elev.getAbsente().isEmpty()) {
+                if (!Utils.getAbsenteByYear(elev).isEmpty()) {
                     ArrayList<Absenta> absNemotivate = new ArrayList<>();
-                    for (Absenta absenta : elev.getAbsente()) {
+                    for (Absenta absenta : Utils.getAbsenteByYear(elev)) {
                         if (!absenta.isMotivata()) {
                             absNemotivate.add(absenta);
                         }

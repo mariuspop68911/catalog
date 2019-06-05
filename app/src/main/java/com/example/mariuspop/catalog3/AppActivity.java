@@ -119,10 +119,10 @@ public abstract class AppActivity extends AppCompatActivity
             } else if (id == R.id.situatie_generala) {
                 Intent intent = new Intent(this, ClassPerformanceActivity.class);
                 startActivity(intent);
-            } else if (id == R.id.alege_clasa) {
+            /*} else if (id == R.id.alege_clasa) {
                 Intent intent = new Intent(this, ScHomeActivity.class);
                 startActivity(intent);
-            } else if (id == R.id.mesaje) {
+            */} else if (id == R.id.mesaje) {
                 Intent intent = new Intent(this, ScInboxActivity.class);
                 startActivity(intent);
             } else if (id == R.id.setari) {

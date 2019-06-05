@@ -1,6 +1,5 @@
 package com.example.mariuspop.catalog3;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 
 public class PreferencesManager {

@@ -26,7 +26,6 @@ import com.example.mariuspop.catalog3.db.DBHelper;
 import com.example.mariuspop.catalog3.models.Absenta;
 import com.example.mariuspop.catalog3.models.Nota;
 import com.example.mariuspop.catalog3.models.mesaje.MesajProf;
-import com.example.mariuspop.catalog3.wizard.AddManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -118,7 +117,7 @@ public class ElevDetailsActivity extends AppActivity implements ElevDetailsView 
         nume.setText(presenter.getElev().getName());
         phone.setText(presenter.getElev().getPhoneNumber());
         elevCode.setText(presenter.getElev().getElevCode());
-        medie.setText(Utils.computeMedie(AddManager.getInstance().getNoteByMaterieId(presenter.getElev(), presenter.getMaterie().getMaterieId())));
+        medie.setText(Utils.computeMedie(presenter.getNoteByMaterie()));
 
         handleRecyclersViews();
         setListeners();
@@ -223,7 +222,7 @@ public class ElevDetailsActivity extends AppActivity implements ElevDetailsView 
                         if (!notaText.isEmpty()) {
                             boolean isTeza = checkBox.isChecked();
                             presenter.createNota(notaText, isTeza);
-                            medie.setText(Utils.computeMedie(presenter.getElev().getNote()));
+                            medie.setText(Utils.computeMedie(Utils.getNoteByYear(presenter.getElev())));
                             noteAdapter.setData(presenter.getNoteByMaterie());
                             noteAdapter.notifyDataSetChanged();
                             displayNoteLayout(noteRecycleView);

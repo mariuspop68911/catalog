@@ -16,11 +16,12 @@ import android.widget.TextView;
 
 import com.example.mariuspop.catalog3.AbsenteManager;
 import com.example.mariuspop.catalog3.Constants;
+import com.example.mariuspop.catalog3.FirebaseRm;
 import com.example.mariuspop.catalog3.NotificationManager;
+import com.example.mariuspop.catalog3.PreferencesManager;
 import com.example.mariuspop.catalog3.R;
 import com.example.mariuspop.catalog3.Utils;
 import com.example.mariuspop.catalog3.db.DBHelper;
-import com.example.mariuspop.catalog3.interfaces.FirebaseCallbackClientUserByPhoneNumber;
 import com.example.mariuspop.catalog3.main.ElevDetailsActivity;
 import com.example.mariuspop.catalog3.models.Absenta;
 import com.example.mariuspop.catalog3.models.Elev;
@@ -112,14 +113,16 @@ public class CustomAdapterElevi extends ArrayAdapter<Elev> {
                                 absenta.setData(Calendar.getInstance().getTime());
                                 absenta.setElevId(elev.getElevId());
                                 absenta.setMaterieNume(materie.getName());
+                                absenta.setYear(Integer.valueOf(PreferencesManager.getStringFromPrefs(Constants.CURRENT_YEAR)));
                                 absenta.setMaterieId(materie.getMaterieId());
                                 absenta.setPending(true);
+                                absenta.setSem(FirebaseRm.getCurrentSemesterForced());
                                 ArrayList<Absenta> absente = elev.getAbsente();
                                 absente.add(absenta);
                                 elev.setAbsente(absente);
                                 for (Elev elev1 : AddManager.getInstance().getClasa().getElevi()) {
                                     if (elev.getElevId() == elev1.getElevId()) {
-                                        elev1.setAbsente(elev.getAbsente());
+                                        elev1.setAbsente(Utils.getAbsenteByYear(elev));
                                     }
                                 }
                                 dbHelper.insertOrUpdateAbsenta(absenta, AddManager.getInstance().getClasa());
@@ -163,8 +166,10 @@ public class CustomAdapterElevi extends ArrayAdapter<Elev> {
                                     ultimaNota.setValue(Integer.valueOf(notaText));
                                     ultimaNota.setMaterieId(materie.getMaterieId());
                                     ultimaNota.setElevId(elev.getElevId());
+                                    ultimaNota.setYear(Integer.valueOf(PreferencesManager.getStringFromPrefs(Constants.CURRENT_YEAR)));
                                     ultimaNota.setData(Calendar.getInstance().getTime());
                                     ultimaNota.setTeza(checkBox.isChecked());
+                                    ultimaNota.setSem(FirebaseRm.getCurrentSemesterForced());
                                     ArrayList<Nota> notas = elev.getNote();
                                     notas.add(ultimaNota);
                                     elev.setNote(notas);
@@ -205,7 +210,7 @@ public class CustomAdapterElevi extends ArrayAdapter<Elev> {
     }
 
     private boolean checkIfNotaTezaExists(Elev elev, long materieId) {
-        ArrayList<Nota> notas = Utils.getNoteByMaterieId(elev, materieId);
+        ArrayList<Nota> notas = Utils.getNoteByMaterieId(elev, materieId, FirebaseRm.getCurrentSemesterForced());
         for (Nota nota : notas) {
             if (nota.isTeza()) {
                 return true;
@@ -215,14 +220,14 @@ public class CustomAdapterElevi extends ArrayAdapter<Elev> {
     }
 
     private void showAlertIcon(Elev elev, ViewHolder viewHolder) {
-        ArrayList<Absenta> absentas = Utils.getAbsenteByMaterieId(elev, materie.getMaterieId());
+        ArrayList<Absenta> absentas = Utils.getAbsenteByMaterieId(elev, materie.getMaterieId(), FirebaseRm.getCurrentSemesterForced());
         ArrayList<Absenta> absenteNemotivate = new ArrayList<>();
         for (Absenta absenta : absentas) {
             if (!absenta.isMotivata()) {
                 absenteNemotivate.add(absenta);
             }
         }
-        ArrayList<Nota> notas = Utils.getNoteByMaterieId(elev, materie.getMaterieId());
+        ArrayList<Nota> notas = Utils.getNoteByMaterieId(elev, materie.getMaterieId(), FirebaseRm.getCurrentSemesterForced());
         double medie = Double.valueOf(Utils.computeMedie(notas));
         boolean medieIssues = medie > 0.0 && medie < 5.0;
         String mesaj = "";
@@ -250,12 +255,12 @@ public class CustomAdapterElevi extends ArrayAdapter<Elev> {
     }
 
     private String notEnoughNotes(Elev elev) {
-        ArrayList<Nota> notasPtElev = Utils.getNoteByMaterieId(elev, materie.getMaterieId());
+        ArrayList<Nota> notasPtElev = Utils.getNoteByMaterieId(elev, materie.getMaterieId(), FirebaseRm.getCurrentSemesterForced());
         if (notasPtElev.size() == 0) {
             int counter = 0;
             for (Elev elevRestul : dataSet) {
                 if (elevRestul.getElevId() != elev.getElevId()) {
-                    ArrayList<Nota> notasPtRestul = Utils.getNoteByMaterieId(elevRestul, materie.getMaterieId());
+                    ArrayList<Nota> notasPtRestul = Utils.getNoteByMaterieId(elevRestul, materie.getMaterieId(), FirebaseRm.getCurrentSemesterForced());
                     if (notasPtRestul.size() > 0) {
                         counter++;
                     }
@@ -270,7 +275,7 @@ public class CustomAdapterElevi extends ArrayAdapter<Elev> {
             int counter = 0;
             for (Elev elevRestul : dataSet) {
                 if (elevRestul.getElevId() != elev.getElevId()) {
-                    ArrayList<Nota> notasPtRestul = Utils.getNoteByMaterieId(elevRestul, materie.getMaterieId());
+                    ArrayList<Nota> notasPtRestul = Utils.getNoteByMaterieId(elevRestul, materie.getMaterieId(), FirebaseRm.getCurrentSemesterForced());
                     if (notasPtRestul.size() > 1) {
                         counter++;
                     }

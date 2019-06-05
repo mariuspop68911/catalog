@@ -6,11 +6,11 @@ import android.content.Context;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.mariuspop.catalog3.AbsenteManager;
 import com.example.mariuspop.catalog3.Constants;
 import com.example.mariuspop.catalog3.FirebaseDb;
+import com.example.mariuspop.catalog3.FirebaseRm;
 import com.example.mariuspop.catalog3.MessageManager;
 import com.example.mariuspop.catalog3.NotificationManager;
 import com.example.mariuspop.catalog3.PreferencesManager;
@@ -117,7 +117,7 @@ public class ElevDetailsPresenter implements FirebaseCallbackClientUser, Firebas
             }
         }
 
-        for (Materie materieLoop : clasa.getMaterii()) {
+        for (Materie materieLoop : Utils.getMateriiByThisYear(clasa)) {
             if (materieLoop.getMaterieId() == materieId) {
                 materie = materieLoop;
             }
@@ -127,15 +127,7 @@ public class ElevDetailsPresenter implements FirebaseCallbackClientUser, Firebas
     }
 
     ArrayList<Absenta> getAbsenteByMaterie() {
-        ArrayList<Absenta> absenteMaterie = new ArrayList<>();
-        if (elev.getAbsente() != null) {
-            for (Absenta absenta : elev.getAbsente()) {
-                if (absenta.getMaterieId() == materie.getMaterieId()) {
-                    absenteMaterie.add(absenta);
-                }
-            }
-        }
-        return absenteMaterie;
+        return Utils.getAbsenteByMaterieId(elev, materieId, FirebaseRm.getCurrentSemesterForced());
     }
 
     ArrayList<MesajProf> getMesajeByMaterie() {
@@ -151,15 +143,7 @@ public class ElevDetailsPresenter implements FirebaseCallbackClientUser, Firebas
     }
 
     ArrayList<Nota> getNoteByMaterie() {
-        ArrayList<Nota> note = new ArrayList<>();
-        if (elev.getNote() != null) {
-            for (Nota nota : elev.getNote()) {
-                if (nota.getMaterieId() == materie.getMaterieId()) {
-                    note.add(nota);
-                }
-            }
-        }
-        return note;
+        return Utils.getNoteByMaterieId(elev, materieId, FirebaseRm.getCurrentSemesterForced());
     }
 
     ArrayList<Absenta> createAbsenta(Context context) {
@@ -170,17 +154,19 @@ public class ElevDetailsPresenter implements FirebaseCallbackClientUser, Firebas
         absenta.setMaterieNume(materie.getName());
         absenta.setMaterieId(materie.getMaterieId());
         absenta.setPending(true);
+        absenta.setYear(Integer.valueOf(PreferencesManager.getStringFromPrefs(Constants.CURRENT_YEAR)));
+        absenta.setSem(FirebaseRm.getCurrentSemesterForced());
         ArrayList<Absenta> absente = elev.getAbsente();
         absente.add(absenta);
         elev.setAbsente(absente);
         for (Elev elev1 : clasa.getElevi()) {
             if (elev.getElevId() == elev1.getElevId()) {
-                elev1.setAbsente(elev.getAbsente());
+                elev1.setAbsente(Utils.getAbsenteByYear(elev));
             }
         }
         view.getDB().insertOrUpdateAbsenta(absenta, clasa);
         AbsenteManager.getInstance().scheduleAbsenta(context, absenta, elev, clasa);
-        return getAbsenteByMaterie();
+        return Utils.getAbsenteByMaterieId(elev, materieId, FirebaseRm.getCurrentSemesterForced());
     }
 
     void createNota(String notaText, boolean isTeza) {
@@ -188,8 +174,10 @@ public class ElevDetailsPresenter implements FirebaseCallbackClientUser, Firebas
         ultimaNota.setValue(Integer.valueOf(notaText));
         ultimaNota.setMaterieId(materie.getMaterieId());
         ultimaNota.setElevId(elev.getElevId());
+        ultimaNota.setYear(Integer.valueOf(PreferencesManager.getStringFromPrefs(Constants.CURRENT_YEAR)));
         ultimaNota.setData(Calendar.getInstance().getTime());
         ultimaNota.setTeza(isTeza);
+        ultimaNota.setSem(FirebaseRm.getCurrentSemesterForced());
         ArrayList<Nota> notas = elev.getNote();
         notas.add(ultimaNota);
         elev.setNote(notas);
@@ -230,7 +218,7 @@ public class ElevDetailsPresenter implements FirebaseCallbackClientUser, Firebas
     }
 
     private boolean checkIfNotaTezaExists() {
-        ArrayList<Nota> notas = Utils.getNoteByMaterieId(elev, materieId);
+        ArrayList<Nota> notas = Utils.getNoteByMaterieId(elev, materieId, FirebaseRm.getCurrentSemesterForced());
         for (Nota nota : notas) {
             if (nota.isTeza()) {
                 return true;

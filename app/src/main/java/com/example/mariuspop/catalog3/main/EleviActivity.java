@@ -17,7 +17,6 @@ import com.example.mariuspop.catalog3.models.Clasa;
 import com.example.mariuspop.catalog3.models.Elev;
 import com.example.mariuspop.catalog3.models.Materie;
 import com.example.mariuspop.catalog3.models.SeenMessageModel;
-import com.example.mariuspop.catalog3.models.mesaje.InboxMessage;
 import com.example.mariuspop.catalog3.models.mesaje.MesajProf;
 import com.example.mariuspop.catalog3.wizard.AddManager;
 
@@ -29,6 +28,7 @@ public class EleviActivity extends AppActivity implements FirebaseCallbackClasaB
     private Clasa clasa;
     private FirebaseCallbackClasaById firebaseCallbackClasaById;
     private LinearLayout alertLayout;
+    private Materie materie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class EleviActivity extends AppActivity implements FirebaseCallbackClasaB
     private void handleUi() {
         ListView dbListView = findViewById(R.id.main_elevi_lista);
         TextView materieNume = findViewById(R.id.materie_nume);
-        final Materie materie = (Materie) getIntent().getSerializableExtra(Constants.EXTRA_MESSAGE_MATERIE);
+        materie = (Materie) getIntent().getSerializableExtra(Constants.EXTRA_MESSAGE_MATERIE);
         materieNume.setText(materie.getName());
         ArrayList<Elev> elevi = clasa.getElevi();
         final CustomAdapterElevi adapter = new CustomAdapterElevi(true, this, elevi, materie, dbHelper, getApplicationContext());
@@ -80,7 +80,7 @@ public class EleviActivity extends AppActivity implements FirebaseCallbackClasaB
                 };
                 Collections.sort(mesajProfs, compareByDate);
                 MesajProf lastMessage = mesajProfs.get(0);
-                if (!lastMessage.isProf()) {
+                if (!lastMessage.isProf() && materie.getName().equals(lastMessage.getMaterieName())) {
                     if (!lastMessage.isSeen()) {
                         SeenMessageModel seenMessageModel = new SeenMessageModel();
                         seenMessageModel.setText("Ai un mesaj de la parintele elevului " + elev.getName() + ". Da tap pentru a raspunde");

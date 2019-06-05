@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/tabla"
     android:scaleType="fitCenter"
+    android:gravity="center"
     android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/semestru_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/erraserdust"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="20sp"
+        android:textColor="@color/white"/>
 
     <ListView
         android:id="@+id/main_materii_lista"
@@ -16,4 +28,57 @@
         android:background="@android:color/transparent"
         android:scrollbars="none"
         android:padding="16dp" />
+
+    <LinearLayout android:id="@+id/new_year_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_view_green"
+        android:padding="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/alert_icon"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_weight="0.1"
+                android:src="@drawable/alert_icon" />
+
+            <TextView android:id="@+id/new_year_text"
+                android:layout_width="0dp"
+                android:layout_weight="0.9"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:text="Te rugam sa configurezi clasa pentru noul an scolar, schimband numele clasei si adaugand lista de materii pentru noul an"/>
+
+        </LinearLayout>
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/configuraza"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            fancy:fb_borderColor="@color/fancy1"
+            fancy:fb_defaultColor="@color/fancy2"
+            fancy:fb_focusColor="@color/fancy3"
+            fancy:fb_radius="30dp"
+            fancy:fb_text="@string/configureaza"
+            fancy:fb_textColor="@color/fancy1"
+            fancy:fb_textSize="17sp" />
+
+    </LinearLayout>
+
 </LinearLayout>

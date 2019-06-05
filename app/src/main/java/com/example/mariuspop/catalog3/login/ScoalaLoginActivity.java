@@ -34,6 +34,7 @@ public class ScoalaLoginActivity extends AppCompatActivity implements FirebaseCa
     private static final String TAG = ScoalaLoginActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 123;
     private RelativeLayout loadingPanel;
+
     /**
      * Change the null parameter in {@code setContentView()}
      * to a layout resource {@code R.layout.example}
@@ -59,7 +60,7 @@ public class ScoalaLoginActivity extends AppCompatActivity implements FirebaseCa
                         AuthUI.getInstance()
                                 .createSignInIntentBuilder()
                                 .setAvailableProviders(providers)
-                                .build(),RC_SIGN_IN);
+                                .build(), RC_SIGN_IN);
             }
         });
 
@@ -97,7 +98,7 @@ public class ScoalaLoginActivity extends AppCompatActivity implements FirebaseCa
             } catch (Exception e) {
                 NavigationManager.navigateToActivity(this, ScHomeActivity.class);
             }
-            if(clasaId == 0) {
+            if (clasaId == 0) {
                 NavigationManager.navigateToActivity(this, ScHomeActivity.class);
             } else {
                 NavigationManager.navigateToActivity(this, MateriiActivity.class);

@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.mariuspop.catalog3.Constants;
+import com.example.mariuspop.catalog3.FirebaseRm;
 import com.example.mariuspop.catalog3.NavigationManager;
 import com.example.mariuspop.catalog3.PreferencesManager;
 import com.example.mariuspop.catalog3.R;
@@ -26,8 +27,9 @@ public class ChooseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate: hit");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.choose_activity);
         context = this;
+        setContentView(R.layout.choose_activity);
+        FirebaseRm.fetchRemoteConfig(null);
         LinearLayout linearLayout = findViewById(R.id.layout);
         TextView gatewayText = findViewById(R.id.gateway_text);
         if(!Constants.IS_SMS_GATEWAY) {
@@ -62,5 +64,6 @@ public class ChooseActivity extends AppCompatActivity {
             linearLayout.setVisibility(View.GONE);
             gatewayText.setVisibility(View.VISIBLE);
         }
+
     }
 }

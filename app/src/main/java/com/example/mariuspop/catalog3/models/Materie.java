@@ -8,6 +8,7 @@ public class Materie implements Serializable {
     private long clasaId;
     private String name;
     private boolean teza;
+    private int year;
 
     public Materie() {
     }
@@ -46,5 +47,13 @@ public class Materie implements Serializable {
 
     public void setTeza(boolean teza) {
         this.teza = teza;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 }

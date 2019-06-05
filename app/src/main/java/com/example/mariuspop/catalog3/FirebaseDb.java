@@ -20,6 +20,7 @@ import com.example.mariuspop.catalog3.models.Institutie;
 import com.example.mariuspop.catalog3.models.mesaje.MessageForTeacher;
 import com.example.mariuspop.catalog3.models.SMSGateway;
 import com.example.mariuspop.catalog3.models.ScUser;
+import com.example.mariuspop.catalog3.wizard.AddManager;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -190,7 +191,9 @@ public class FirebaseDb {
     }
 
     public static void saveClasa(Clasa clasa) {
+        AddManager.getInstance().setClasa(clasa);
         PreferencesManager.saveStringToPrefs(Constants.CURRENT_CLASS, String.valueOf(clasa.getClasaId()));
+        PreferencesManager.saveStringToPrefs(Constants.CURRENT_YEAR, String.valueOf(clasa.getYear()));
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("clase/" + clasa.getClasaId());
         myRef.setValue(clasa);

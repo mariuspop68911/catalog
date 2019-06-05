@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.example.mariuspop.catalog3.Constants;
 import com.example.mariuspop.catalog3.FirebaseDb;
+import com.example.mariuspop.catalog3.FirebaseRm;
 import com.example.mariuspop.catalog3.PreferencesManager;
 import com.example.mariuspop.catalog3.R;
 import com.example.mariuspop.catalog3.Utils;
@@ -19,7 +20,6 @@ import com.example.mariuspop.catalog3.models.Elev;
 import com.example.mariuspop.catalog3.models.Materie;
 import com.example.mariuspop.catalog3.models.NewsItem;
 import com.example.mariuspop.catalog3.models.Nota;
-import com.example.mariuspop.catalog3.models.mesaje.MesajProf;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,15 +54,18 @@ public class ClientHomePresenter implements FirebaseCallbackClientElev, Firebase
     @Override
     public void onElevReceived(Elev elev) {
         this.elev = elev;
-        ElevManager.getInstance().setElev(elev);
-        view.setToolbarTitle();
-        FirebaseDb.getClasaById(this, elev.getClasaId());
+        if (elev != null) {
+            ElevManager.getInstance().setElev(elev);
+            view.setToolbarTitle();
+            FirebaseDb.getClasaById(this, elev.getClasaId());
+        }
     }
 
     @Override
     public void onClasaReceived(Clasa clasas) {
         clasa = clasas;
-        ArrayList<Materie> materies = clasa.getMaterii();
+        PreferencesManager.saveStringToPrefs(Constants.CURRENT_YEAR, String.valueOf(clasa.getYear()));
+        ArrayList<Materie> materies = Utils.getMateriiByThisYear(clasa);
         ClientHomeAdapter adapter = new ClientHomeAdapter(materies, context);
         view.getList().setAdapter(adapter);
         ArrayList<String> alerts = getMessages();
@@ -91,8 +94,8 @@ public class ClientHomePresenter implements FirebaseCallbackClientElev, Firebase
 
     public ArrayList<NewsItem> getNews() {
         ArrayList<NewsItem> news = new ArrayList<>();
-        for (Materie materie : clasa.getMaterii()) {
-            ArrayList<Absenta> absentas = Utils.getAbsenteByMaterieId(elev, materie.getMaterieId());
+        for (Materie materie : Utils.getMateriiByThisYear(clasa)) {
+            ArrayList<Absenta> absentas = Utils.getAbsenteByMaterieId(elev, materie.getMaterieId(), FirebaseRm.getCurrentSemesterForced());
             for (Absenta absenta : absentas) {
                 if (Utils.isToday(absenta.getData().getTime())) {
                     NewsItem newsItem = new NewsItem();
@@ -104,7 +107,7 @@ public class ClientHomePresenter implements FirebaseCallbackClientElev, Firebase
                 }
             }
 
-            ArrayList<Nota> notas = Utils.getNoteByMaterieId(elev, materie.getMaterieId());
+            ArrayList<Nota> notas = Utils.getNoteByMaterieId(elev, materie.getMaterieId(), FirebaseRm.getCurrentSemesterForced());
             for (Nota nota : notas) {
                 if (Utils.isToday(nota.getData().getTime())) {
                     NewsItem newsItem = new NewsItem();
@@ -130,8 +133,8 @@ public class ClientHomePresenter implements FirebaseCallbackClientElev, Firebase
 
     private ArrayList<String> getMessages() {
         ArrayList<String> messages = new ArrayList<>();
-        for (Materie materie : clasa.getMaterii()) {
-            ArrayList<Absenta> absentas = Utils.getAbsenteByMaterieId(elev, materie.getMaterieId());
+        for (Materie materie : Utils.getMateriiByThisYear(clasa)) {
+            ArrayList<Absenta> absentas = Utils.getAbsenteByMaterieId(elev, materie.getMaterieId(), FirebaseRm.getCurrentSemesterForced());
             ArrayList<Absenta> absenteNemotivate = new ArrayList<>();
             for (Absenta absenta : absentas) {
                 if (!absenta.isMotivata()) {
@@ -142,8 +145,8 @@ public class ClientHomePresenter implements FirebaseCallbackClientElev, Firebase
                 messages.add(context.getResources().getString(R.string.limita_abs_materie) + " " + materie.getName());
             }
         }
-        for (Materie materie : clasa.getMaterii()) {
-            ArrayList<Nota> notas = Utils.getNoteByMaterieId(elev, materie.getMaterieId());
+        for (Materie materie : Utils.getMateriiByThisYear(clasa)) {
+            ArrayList<Nota> notas = Utils.getNoteByMaterieId(elev, materie.getMaterieId(), FirebaseRm.getCurrentSemesterForced());
             double medie = Double.valueOf(Utils.computeMedie(notas));
             boolean medieIssues = medie > 0.0 && medie < 5.0;
             if (medieIssues) {
@@ -163,12 +166,12 @@ public class ClientHomePresenter implements FirebaseCallbackClientElev, Firebase
     private void markAsSeen() {
         for (Elev elev1 : clasa.getElevi()) {
             if (elev1.getElevId() == elev.getElevId()) {
-                for (Absenta absenta : elev1.getAbsente()) {
+                for (Absenta absenta : Utils.getAbsenteByYear(elev1)) {
                     if (Utils.isToday(absenta.getData().getTime())) {
                         absenta.setSeen(true);
                     }
                 }
-                for (Nota nota : elev1.getNote()) {
+                for (Nota nota : Utils.getNoteByYear(elev1)) {
                     if (Utils.isToday(nota.getData().getTime())) {
                         nota.setSeen(true);
                     }
@@ -185,12 +188,12 @@ public class ClientHomePresenter implements FirebaseCallbackClientElev, Firebase
         int counter = 0;
         for (Elev elev1 : clasa.getElevi()) {
             if (elev1.getElevId() == elev.getElevId()) {
-                for (Absenta absenta : elev1.getAbsente()) {
+                for (Absenta absenta : Utils.getAbsenteByYear(elev1)) {
                     if (Utils.isToday(absenta.getData().getTime()) && !absenta.isSeen()) {
                         counter++;
                     }
                 }
-                for (Nota nota : elev1.getNote()) {
+                for (Nota nota : Utils.getNoteByYear(elev1)) {
                     if (Utils.isToday(nota.getData().getTime()) && !nota.isSeen()) {
                         counter++;
                     }

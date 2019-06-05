@@ -3,20 +3,15 @@ package com.example.mariuspop.catalog3;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.CheckBox;
-import android.widget.EditText;
 
-import com.example.mariuspop.catalog3.client.ElevManager;
 import com.example.mariuspop.catalog3.models.Absenta;
 import com.example.mariuspop.catalog3.models.Clasa;
 import com.example.mariuspop.catalog3.models.Elev;
 import com.example.mariuspop.catalog3.models.Materie;
 import com.example.mariuspop.catalog3.models.MediiWrapper;
 import com.example.mariuspop.catalog3.models.Nota;
-import com.example.mariuspop.catalog3.wizard.AddManager;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -28,8 +23,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Random;
-
-import mehdi.sakout.fancybuttons.FancyButton;
 
 public class Utils {
 
@@ -76,20 +69,20 @@ public class Utils {
         }
     }
 
-    public static ArrayList<Nota> getNoteByMaterieId(Elev elev, long materieId) {
+    public static ArrayList<Nota> getNoteByMaterieId(Elev elev, long materieId, String semestru) {
         ArrayList<Nota> noteByMaterie = new ArrayList<>();
-        for (Nota nota : elev.getNote()) {
-            if (materieId == nota.getMaterieId()) {
+        for (Nota nota : Utils.getNoteByYear(elev)) {
+            if (materieId == nota.getMaterieId() && semestru.equals(nota.getSem())) {
                 noteByMaterie.add(nota);
             }
         }
         return noteByMaterie;
     }
 
-    public static ArrayList<Absenta> getAbsenteByMaterieId(Elev elev, long materieId) {
+    public static ArrayList<Absenta> getAbsenteByMaterieId(Elev elev, long materieId, String semestru) {
         ArrayList<Absenta> absenteByMaterie = new ArrayList<>();
-        for (Absenta absenta : elev.getAbsente()) {
-            if (materieId == absenta.getMaterieId()) {
+        for (Absenta absenta : Utils.getAbsenteByYear(elev)) {
+            if (materieId == absenta.getMaterieId() && semestru.equals(absenta.getSem())) {
                 absenteByMaterie.add(absenta);
             }
         }
@@ -110,8 +103,8 @@ public class Utils {
     public static String getMedieGenerala(Clasa clasa, Elev elev) {
 
         ArrayList<MediiWrapper> mediiWrappers = new ArrayList<>();
-        for (Materie materie : clasa.getMaterii()) {
-            String media = Utils.computeMedie(Utils.getNoteByMaterieId(elev, materie.getMaterieId()));
+        for (Materie materie : Utils.getMateriiByThisYear(clasa)) {
+            String media = Utils.computeMedie(Utils.getNoteByMaterieId(elev, materie.getMaterieId(), FirebaseRm.getCurrentSemesterForced()));
             MediiWrapper mediiWrapper = new MediiWrapper();
             mediiWrapper.setMedie(Double.valueOf(media));
             mediiWrapper.setNumeMaterie(materie.getName());
@@ -161,6 +154,42 @@ public class Utils {
         } else {
             return false;
         }
+    }
+
+    public static ArrayList<Materie> getMateriiByThisYear(Clasa clasa) {
+        ArrayList<Materie> materies = new ArrayList<>();
+        if (clasa.getMaterii() != null) {
+            for (Materie materie : clasa.getMaterii()) {
+                if (materie.getYear() == clasa.getYear()) {
+                    materies.add(materie);
+                }
+            }
+        }
+        return materies;
+    }
+
+    public static ArrayList<Nota> getNoteByYear(Elev elev) {
+        ArrayList<Nota> notas = new ArrayList<>();
+        if (elev.getNote() != null) {
+            for (Nota nota : elev.getNote()) {
+                if (nota.getYear() == Integer.valueOf(PreferencesManager.getStringFromPrefs(Constants.CURRENT_YEAR))) {
+                    notas.add(nota);
+                }
+            }
+        }
+        return notas;
+    }
+
+    public static ArrayList<Absenta> getAbsenteByYear(Elev elev) {
+        ArrayList<Absenta> abs = new ArrayList<>();
+        if (elev.getAbsente() != null) {
+            for (Absenta absenta : elev.getAbsente()) {
+                if (absenta.getYear() == Integer.valueOf(PreferencesManager.getStringFromPrefs(Constants.CURRENT_YEAR))) {
+                    abs.add(absenta);
+                }
+            }
+        }
+        return abs;
     }
 
 }

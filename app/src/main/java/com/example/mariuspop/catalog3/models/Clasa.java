@@ -16,6 +16,8 @@ public class Clasa implements Serializable {
     private String userId;
     private String scoalaToken;
     private ArrayList<MessageForTeacher> messageForTeachers;
+    private int year;
+    private String currentYearStart;
 
     public Clasa() {
     }
@@ -41,6 +43,9 @@ public class Clasa implements Serializable {
     }
 
     public ArrayList<Materie> getMaterii() {
+        if (materii == null) {
+            materii = new ArrayList<>();
+        }
         return materii;
     }
 
@@ -96,5 +101,19 @@ public class Clasa implements Serializable {
         this.messageForTeachers = messageForTeachers;
     }
 
+    public int getYear() {
+        return year;
+    }
 
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public String getCurrentYearStart() {
+        return currentYearStart;
+    }
+
+    public void setCurrentYearStart(String currentYearStart) {
+        this.currentYearStart = currentYearStart;
+    }
 }

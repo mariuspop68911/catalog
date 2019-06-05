@@ -121,7 +121,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public long saveClasaAndDependencies(Clasa clasa) {
         long clasaId = insertOrUpdateClasa(clasa);
         clasa.setClasaId(clasaId);
-        for(Materie materie : clasa.getMaterii()){
+        for(Materie materie : Utils.getMateriiByThisYear(clasa)){
             materie.setClasaId(clasaId);
             insertOrUpdateMaterie(materie);
         }

@@ -45,6 +45,22 @@ public class Constants {
 
     public static final String ABS_SERIALISABE = "abs_serial";
 
-    public static final String NEWS_SERIALISABE = "news_ser";
+    public static final String SPINNER_SEM_1 = "Semestrul 1";
+    public static final String SPINNER_SEM_2 = "Semestrul 2";
+
+    public static final String SEM1_START = "sem1Start";
+    public static final String SEM1_END = "sem1End";
+    public static final String SEM2_START = "sem2Start";
+    public static final String SEM2_END = "sem2End";
+
+    public static final String SEM_OVERRIDE = "semOverride";
+
+    public static final String CURRENT_YEAR = "current_year";
+    public static final String CURRENT_YEAR_START = "current_year_start";
+
+    public static final String AN_1 = "an1";
+    public static final String AN_2 = "an2";
+    public static final String AN_3 = "an3";
+    public static final String AN_4 = "an4";
 
 }

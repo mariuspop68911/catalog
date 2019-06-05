@@ -7,35 +7,49 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.mariuspop.catalog3.AppActivity;
 import com.example.mariuspop.catalog3.Constants;
 import com.example.mariuspop.catalog3.FirebaseDb;
+import com.example.mariuspop.catalog3.FirebaseRm;
 import com.example.mariuspop.catalog3.NavigationManager;
 import com.example.mariuspop.catalog3.PreferencesManager;
 import com.example.mariuspop.catalog3.R;
+import com.example.mariuspop.catalog3.Utils;
 import com.example.mariuspop.catalog3.adapters.CustomAdapterMaterie;
 import com.example.mariuspop.catalog3.interfaces.FirebaseCallbackClase;
 import com.example.mariuspop.catalog3.models.Clasa;
 import com.example.mariuspop.catalog3.models.Materie;
 import com.example.mariuspop.catalog3.wizard.AddManager;
+import com.example.mariuspop.catalog3.wizard.NewYearActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import mehdi.sakout.fancybuttons.FancyButton;
 
 public class MateriiActivity extends AppActivity implements FirebaseCallbackClase {
     private Context context;
     private ArrayList<Materie> materii = new ArrayList<>();
     private Clasa clasa;
     private ListView dbListView;
+    private TextView semestruText;
+    private LinearLayout newYear;
+    private FancyButton configure;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
+        FirebaseRm.fetchRemoteConfig(null);
+        semestruText = findViewById(R.id.semestru_text);
         dbListView = findViewById(R.id.main_materii_lista);
+        newYear = findViewById(R.id.new_year_layout);
         dbListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -44,13 +58,17 @@ public class MateriiActivity extends AppActivity implements FirebaseCallbackClas
                 view.startAnimation(animation1);
             }
         });
-        clasa = AddManager.getInstance().getClasa();
-        final long clasaId = getIntent().getLongExtra(Constants.EXTRA_MESSAGE_CLASA, 0L);
-        if (clasaId == 0L || clasa == null) {
-            FirebaseDb.getClaseByUserId(this, Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
-        } else {
-            displayList();
-        }
+        configure = findViewById(R.id.configuraza);
+        configure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, NewYearActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        FirebaseDb.getClaseByUserId(this, Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
+
     }
 
     @Override
@@ -64,11 +82,6 @@ public class MateriiActivity extends AppActivity implements FirebaseCallbackClas
     }
 
     @Override
-    public int getContentAreaLayoutId() {
-        return R.layout.main_materii_activity;
-    }
-
-    @Override
     public void onClaseReceived(ArrayList<Clasa> clase) {
         long clasaId = 0L;
         try {
@@ -77,7 +90,7 @@ public class MateriiActivity extends AppActivity implements FirebaseCallbackClas
             NavigationManager.navigateToActivity(context, ScHomeActivity.class);
         }
 
-        if(clasaId == 0L){
+        if (clasaId == 0L) {
             NavigationManager.navigateToActivity(context, ScHomeActivity.class);
         }
 
@@ -88,12 +101,22 @@ public class MateriiActivity extends AppActivity implements FirebaseCallbackClas
             }
         }
         setToolbarTitle();
-        displayList();
+        if (clasa.getCurrentYearStart() != null && clasa.getCurrentYearStart().equals(PreferencesManager.getStringFromPrefs(Constants.CURRENT_YEAR_START))) {
+            displayList();
+        } else {
+            semestruText.setVisibility(View.GONE);
+            dbListView.setVisibility(View.GONE);
+            newYear.setVisibility(View.VISIBLE);
+        }
     }
 
     private void displayList() {
+        semestruText.setVisibility(View.VISIBLE);
+        dbListView.setVisibility(View.VISIBLE);
+        newYear.setVisibility(View.GONE);
         if (clasa != null) {
-            materii = clasa.getMaterii();
+            semestruText.setText(FirebaseRm.getCurrentSemesterForced());
+            materii = Utils.getMateriiByThisYear(clasa);
             CustomAdapterMaterie adapter = new CustomAdapterMaterie(materii, getApplicationContext());
             dbListView.setAdapter(adapter);
             dbListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -105,5 +128,10 @@ public class MateriiActivity extends AppActivity implements FirebaseCallbackClas
                 }
             });
         }
+    }
+
+    @Override
+    public int getContentAreaLayoutId() {
+        return R.layout.main_materii_activity;
     }
 }

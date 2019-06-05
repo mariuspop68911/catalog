@@ -11,14 +11,17 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mariuspop.catalog3.AppActivity;
 import com.example.mariuspop.catalog3.Constants;
+import com.example.mariuspop.catalog3.FirebaseDb;
 import com.example.mariuspop.catalog3.PreferencesManager;
 import com.example.mariuspop.catalog3.R;
 import com.example.mariuspop.catalog3.adapters.CustomAdapterMaterie;
+import com.example.mariuspop.catalog3.interfaces.FirebaseCallbackClasaById;
+import com.example.mariuspop.catalog3.main.MateriiActivity;
+import com.example.mariuspop.catalog3.models.Clasa;
 import com.example.mariuspop.catalog3.models.Materie;
 
 import java.util.ArrayList;
@@ -26,20 +29,42 @@ import java.util.Calendar;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
-public class WizardAddMateriiActivity extends AppActivity {
+public class NewYearActivity extends AppActivity implements FirebaseCallbackClasaById {
 
     private Context context;
 
     private ListView adaugaMateriiLista;
 
-    private ArrayList<Materie> materii = new ArrayList<>();
+    private EditText clasaNameEdit;
+
+    private ArrayList<Materie> materii;
+    private ArrayList<Materie> materiiToDisplay;
+
+    private Clasa clasa;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
+        FirebaseDb.getClasaById(this, Long.valueOf(PreferencesManager.getStringFromPrefs(Constants.CURRENT_CLASS)));
+    }
+
+    @Override
+    protected void setToolbarTitle() {
+        toolbar.setTitle(PreferencesManager.getStringFromPrefs(Constants.INSTITUTE_NAME));
+        toolbar.setSubtitle(AddManager.getInstance().getClasa().getName());
+    }
+
+    @Override
+    public void onClasaReceived(final Clasa clasa) {
+        this.clasa = clasa;
+        materii = clasa.getMaterii();
+
         adaugaMateriiLista = findViewById(R.id.adauga_materii_lista);
-        CustomAdapterMaterie adapter = new CustomAdapterMaterie(materii, getApplicationContext());
+        clasaNameEdit = findViewById(R.id.edit);
+
+        materiiToDisplay = new ArrayList<>();
+        CustomAdapterMaterie adapter = new CustomAdapterMaterie(materiiToDisplay, getApplicationContext());
         adaugaMateriiLista.setAdapter(adapter);
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -60,10 +85,10 @@ public class WizardAddMateriiActivity extends AppActivity {
                         String nameText = name.getText().toString();
                         if (!nameText.isEmpty()) {
                             Materie materie = new Materie(name.getText().toString());
+                            materie.setYear(clasa.getYear() + 1);
                             materie.setTeza(checkBox.isChecked());
-                            materie.setYear(AddManager.getInstance().getClasa().getYear());
                             materie.setMaterieId(Calendar.getInstance().getTimeInMillis());
-                            materii.add(materie);
+                            materiiToDisplay.add(materie);
                         }
                         dialog.dismiss();
                     }
@@ -75,9 +100,15 @@ public class WizardAddMateriiActivity extends AppActivity {
         continua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!materii.isEmpty()){
-                    AddManager.getInstance().getClasa().setMaterii(materii);
-                    Intent intent = new Intent(context, WizardAddEleviActivity.class);
+                if (!materiiToDisplay.isEmpty() && !clasaNameEdit.getText().toString().isEmpty()) {
+                    materii.addAll(materiiToDisplay);
+                    clasa.setYear(clasa.getYear() + 1);
+                    clasa.setCurrentYearStart(PreferencesManager.getStringFromPrefs(Constants.CURRENT_YEAR_START));
+                    clasa.setName(clasaNameEdit.getText().toString());
+                    clasa.setMaterii(materii);
+                    FirebaseDb.saveClasa(clasa);
+                    Intent intent = new Intent(context, MateriiActivity.class);
+                    intent.putExtra(Constants.EXTRA_MESSAGE_CLASA, clasa.getClasaId());
                     startActivity(intent);
                 } else {
                     Toast.makeText(context, "Completeaza", Toast.LENGTH_LONG).show();
@@ -86,14 +117,9 @@ public class WizardAddMateriiActivity extends AppActivity {
         });
     }
 
-    @Override
-    protected void setToolbarTitle() {
-        toolbar.setTitle(PreferencesManager.getStringFromPrefs(Constants.INSTITUTE_NAME));
-        toolbar.setSubtitle(AddManager.getInstance().getClasa().getName());
-    }
 
     @Override
     public int getContentAreaLayoutId() {
-        return R.layout.main_add_materie;
+        return R.layout.new_year_layout;
     }
 }

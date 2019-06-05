@@ -1,15 +1,19 @@
 package com.example.mariuspop.catalog3.client.MVP;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -17,32 +21,45 @@ import android.widget.TextView;
 
 import com.example.mariuspop.catalog3.AppActivity;
 import com.example.mariuspop.catalog3.Constants;
+import com.example.mariuspop.catalog3.FirebaseRm;
+import com.example.mariuspop.catalog3.PreferencesManager;
 import com.example.mariuspop.catalog3.R;
 import com.example.mariuspop.catalog3.client.NewsFragment;
+import com.example.mariuspop.catalog3.interfaces.FirebaseRMCallback;
 import com.example.mariuspop.catalog3.models.Elev;
-import com.example.mariuspop.catalog3.models.NewsItem;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 
-public class ClientHomeActivity extends AppActivity implements ClientHomeView {
+public class ClientHomeActivity extends AppActivity implements ClientHomeView, FirebaseRMCallback  {
 
     private RelativeLayout loadingPanel;
     private ClientHomePresenter presenter;
     private ListView dbListView;
     private ListView alertList;
     private LinearLayout alertLayout;
+    private TextView sem;
+    private TextView text;
+    private ViewGroup titleLayout2;
+    private Context context;
+    private ClientHomeView clientHomeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        context = this;
+        clientHomeView = this;
+
         subscribeToNotifications();
+        FirebaseRm.fetchRemoteConfig(this);
+
         loadingPanel = findViewById(R.id.loadingPanel);
         alertList = findViewById(R.id.alertList);
         dbListView = findViewById(R.id.main_elev_lista);
         alertLayout = findViewById(R.id.alertLayout);
-
         loadingPanel.setVisibility(View.VISIBLE);
         presenter = new ClientHomePresenter(this, this);
+
     }
 
     public ClientHomePresenter getPresenter() {
@@ -147,9 +164,57 @@ public class ClientHomeActivity extends AppActivity implements ClientHomeView {
     }
 
     @Override
+    public void onRemoteConfigFetched() {
+        sem = findViewById(R.id.sem);
+        sem.setText(FirebaseRm.getCurrentSemesterForced().equals(Constants.SPINNER_SEM_1) ? "SEM 1" : "SEM 2");
+        text = findViewById(R.id.text);
+        text.setText(FirebaseRm.getCurrentSemesterForced().equals(Constants.SPINNER_SEM_2) ? "SEM 1" : "SEM 2");
+        titleLayout2 = findViewById(R.id.title_layout2);
+
+        final boolean[] visible = new boolean[1];
+
+        sem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TransitionManager.beginDelayedTransition(titleLayout2);
+                visible[0] = !visible[0];
+                text.setVisibility(visible[0] ? View.VISIBLE : View.GONE);
+            }
+        });
+
+        text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String currentSemester = FirebaseRm.getCurrentSemester();
+                String newSemString = FirebaseRm.getCurrentSemesterForced().equals(Constants.SPINNER_SEM_1) ?
+                        Constants.SPINNER_SEM_2 : Constants.SPINNER_SEM_1;
+                sem.setText(newSemString.equals(Constants.SPINNER_SEM_1)? "SEM 1" : "SEM 2");
+                text.setText(newSemString.equals(Constants.SPINNER_SEM_2)? "SEM 1" : "SEM 2");
+                if (currentSemester.equals(newSemString)) {
+                    PreferencesManager.removeStringToPrefs(Constants.SEM_OVERRIDE);
+                } else {
+                    PreferencesManager.saveStringToPrefs(Constants.SEM_OVERRIDE, newSemString);
+                }
+                TransitionManager.beginDelayedTransition(titleLayout2);
+                visible[0] = !visible[0];
+                text.setVisibility(visible[0] ? View.VISIBLE : View.GONE);
+
+                loadingPanel.setVisibility(View.VISIBLE);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        presenter = new ClientHomePresenter(clientHomeView, context);
+                    }
+                }, 500);
+            }
+        });
+
+    }
+
+    @Override
     public int getContentAreaLayoutId() {
         return R.layout.client_home_activity;
     }
-
 
 }

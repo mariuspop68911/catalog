@@ -1,5 +1,6 @@
 package com.example.mariuspop.catalog3.client;
 
+import com.example.mariuspop.catalog3.Utils;
 import com.example.mariuspop.catalog3.models.Absenta;
 import com.example.mariuspop.catalog3.models.Elev;
 import com.example.mariuspop.catalog3.models.Nota;
@@ -25,20 +26,20 @@ public class ElevManager {
         this.elev = elev;
     }
 
-    public ArrayList<Nota> getNoteByMaterieId(long materieId){
+    public ArrayList<Nota> getNoteByMaterieId(long materieId, String sem){
         ArrayList<Nota> noteByMaterie = new ArrayList<>();
-        for (Nota nota : elev.getNote()) {
-            if (materieId == nota.getMaterieId()) {
+        for (Nota nota : Utils.getNoteByYear(elev)) {
+            if (materieId == nota.getMaterieId() && sem.equals(nota.getSem())) {
                 noteByMaterie.add(nota);
             }
         }
         return noteByMaterie;
     }
 
-    public ArrayList<Absenta> getAbsenteByMaterieId(long materieId){
+    public ArrayList<Absenta> getAbsenteByMaterieId(long materieId, String sem){
         ArrayList<Absenta> absenteByMaterie = new ArrayList<>();
-        for (Absenta absenta : elev.getAbsente()) {
-            if (materieId == absenta.getMaterieId()) {
+        for (Absenta absenta : Utils.getAbsenteByYear(elev)) {
+            if (materieId == absenta.getMaterieId() && sem.equals(absenta.getSem())) {
                 absenteByMaterie.add(absenta);
             }
         }

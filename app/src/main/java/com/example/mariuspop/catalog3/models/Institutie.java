@@ -6,8 +6,6 @@ public class Institutie {
 
     private String nume;
 
-    private long clasaId;
-
     private String userId;
 
     public long getInstitutieId() {
@@ -24,14 +22,6 @@ public class Institutie {
 
     public void setNume(String nume) {
         this.nume = nume;
-    }
-
-    public long getClasaId() {
-        return clasaId;
-    }
-
-    public void setClasaId(long clasaId) {
-        this.clasaId = clasaId;
     }
 
     public String getUserId() {

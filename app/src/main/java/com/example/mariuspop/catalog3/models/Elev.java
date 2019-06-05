@@ -1,5 +1,7 @@
 package com.example.mariuspop.catalog3.models;
 
+import com.example.mariuspop.catalog3.Constants;
+import com.example.mariuspop.catalog3.PreferencesManager;
 import com.example.mariuspop.catalog3.models.mesaje.MesajProf;
 
 import java.io.Serializable;
@@ -50,7 +52,10 @@ public class Elev implements Serializable {
     }
 
     public ArrayList<Nota> getNote() {
-        return note == null? new ArrayList<Nota>() : note;
+        if (note == null) {
+            note = new ArrayList<>();
+        }
+        return note;
     }
 
     public void setNote(ArrayList<Nota> note) {
@@ -58,7 +63,10 @@ public class Elev implements Serializable {
     }
 
     public ArrayList<Absenta> getAbsente() {
-        return absente == null? new ArrayList<Absenta>() : absente;
+        if (absente == null) {
+            absente = new ArrayList<>();
+        }
+        return absente;
     }
 
     public void setAbsente(ArrayList<Absenta> absente) {
@@ -82,7 +90,7 @@ public class Elev implements Serializable {
     }
 
     public ArrayList<MesajProf> getMesajProfs() {
-        return mesajProfs == null? new ArrayList<MesajProf>() : mesajProfs;
+        return mesajProfs == null ? new ArrayList<MesajProf>() : mesajProfs;
     }
 
     public void setMesajProfs(ArrayList<MesajProf> mesajProfs) {

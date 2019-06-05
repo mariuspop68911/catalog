@@ -14,6 +14,8 @@ public class Absenta implements Serializable {
     private boolean motivata;
     private boolean pending;
     private boolean seen;
+    private String sem;
+    private int year;
 
     public Absenta() {
         absentaId = Calendar.getInstance().getTimeInMillis();
@@ -81,5 +83,21 @@ public class Absenta implements Serializable {
 
     public void setSeen(boolean seen) {
         this.seen = seen;
+    }
+
+    public String getSem() {
+        return sem;
+    }
+
+    public void setSem(String sem) {
+        this.sem = sem;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 }

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.mariuspop.catalog3.AbsenteManager;
 import com.example.mariuspop.catalog3.FirebaseDb;
 import com.example.mariuspop.catalog3.R;
+import com.example.mariuspop.catalog3.Utils;
 import com.example.mariuspop.catalog3.db.DBHelper;
 import com.example.mariuspop.catalog3.interfaces.FirebaseCallbackClasaById;
 import com.example.mariuspop.catalog3.models.Absenta;
@@ -99,8 +100,8 @@ public class AbsenteAdapter extends RecyclerView.Adapter<AbsenteAdapter.ViewHold
             for (Elev elev1 : clasa.getElevi()) {
                 if (elev1.getElevId() == elev.getElevId()) {
                     absente.remove(absentaToDelete);
-                    elev.getAbsente().remove(absentaToDelete);
-                    elev1.setAbsente(elev.getAbsente());
+                    Utils.getAbsenteByYear(elev).remove(absentaToDelete);
+                    elev1.setAbsente(Utils.getAbsenteByYear(elev));
                     AbsenteManager.getInstance().getAlarmManager().cancel(AbsenteManager.getInstance().getPendingIntents().get(absentaToDelete.getAbsentaId()));
                     break;
                 }
@@ -167,7 +168,7 @@ public class AbsenteAdapter extends RecyclerView.Adapter<AbsenteAdapter.ViewHold
                                 @Override
                                 public void onClick(View v) {
                                     if (elev != null) {
-                                        for (Absenta absenta1 : elev.getAbsente()) {
+                                        for (Absenta absenta1 : Utils.getAbsenteByYear(elev)) {
                                             if (absenta.getAbsentaId() == absenta1.getAbsentaId()) {
                                                 absenta1.setMotivata(true);
                                             }

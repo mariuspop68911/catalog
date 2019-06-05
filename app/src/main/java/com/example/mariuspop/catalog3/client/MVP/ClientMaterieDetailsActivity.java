@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.mariuspop.catalog3.AppActivity;
 import com.example.mariuspop.catalog3.Constants;
+import com.example.mariuspop.catalog3.FirebaseRm;
 import com.example.mariuspop.catalog3.R;
 import com.example.mariuspop.catalog3.Utils;
 import com.example.mariuspop.catalog3.adapters.AbsenteTransparentAdapter;
@@ -63,7 +64,7 @@ public class ClientMaterieDetailsActivity extends AppActivity implements ClientM
 
         materieNumeText.setText(materieNume);
         loadingPanel.setVisibility(View.VISIBLE);
-        mediaValue.setText(Utils.computeMedie(ElevManager.getInstance().getNoteByMaterieId(materieId)));
+        mediaValue.setText(Utils.computeMedie(ElevManager.getInstance().getNoteByMaterieId(materieId, FirebaseRm.getCurrentSemesterForced())));
         sendEditText.addTextChangedListener(getTextWatcherListener(sendButton));
         sendButton.setOnClickListener(getOnClickListener());
         loadingPanel.setVisibility(View.GONE);
@@ -71,8 +72,8 @@ public class ClientMaterieDetailsActivity extends AppActivity implements ClientM
 
     private void handleRecyclers() {
 
-        ArrayList<Nota> noteByMaterie = ElevManager.getInstance().getNoteByMaterieId(materieId);
-        ArrayList<Absenta> absenteByMaterie = ElevManager.getInstance().getAbsenteByMaterieId(materieId);
+        ArrayList<Nota> noteByMaterie = ElevManager.getInstance().getNoteByMaterieId(materieId, FirebaseRm.getCurrentSemesterForced());
+        ArrayList<Absenta> absenteByMaterie = ElevManager.getInstance().getAbsenteByMaterieId(materieId, FirebaseRm.getCurrentSemesterForced());
         ArrayList<MesajProf> mesajeByMaterie = ElevManager.getInstance().getMesajeByMaterieId(materieId);
         Comparator<MesajProf> compareByDate = new Comparator<MesajProf>() {
             @Override
