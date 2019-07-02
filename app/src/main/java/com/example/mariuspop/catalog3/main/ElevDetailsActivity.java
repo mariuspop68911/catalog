@@ -185,7 +185,15 @@ public class ElevDetailsActivity extends AppActivity implements ElevDetailsView 
                 dialogButtonOk.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        absenteAdapter.setData(presenter.createAbsenta(context));
+                        ArrayList<Absenta> absentas = presenter.createAbsenta(context);
+                        Comparator<Absenta> compareByData = new Comparator<Absenta>() {
+                            @Override
+                            public int compare(Absenta o1, Absenta o2) {
+                                return o2.getData().compareTo(o1.getData());
+                            }
+                        };
+                        Collections.sort(absentas, compareByData);
+                        absenteAdapter.setData(absentas);
                         absenteAdapter.notifyDataSetChanged();
                         dialog.dismiss();
                         displayAbsenteLayout(absenteRecycleView);
@@ -221,9 +229,20 @@ public class ElevDetailsActivity extends AppActivity implements ElevDetailsView 
                         String notaText = name.getText().toString();
                         if (!notaText.isEmpty()) {
                             boolean isTeza = checkBox.isChecked();
+
                             presenter.createNota(notaText, isTeza);
                             medie.setText(Utils.computeMedie(Utils.getNoteByYear(presenter.getElev())));
-                            noteAdapter.setData(presenter.getNoteByMaterie());
+
+                            ArrayList<Nota> notas = presenter.getNoteByMaterie();
+                            Comparator<Nota> compareByData = new Comparator<Nota>() {
+                                @Override
+                                public int compare(Nota o1, Nota o2) {
+                                    return o2.getData().compareTo(o1.getData());
+                                }
+                            };
+                            Collections.sort(notas, compareByData);
+
+                            noteAdapter.setData(notas);
                             noteAdapter.notifyDataSetChanged();
                             displayNoteLayout(noteRecycleView);
                         }

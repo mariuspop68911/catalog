@@ -65,7 +65,7 @@ public class ClientInboxMessagesAdapter extends RecyclerView.Adapter<ClientInbox
             viewHolder.fromText.setText(context.getResources().getString(R.string.de_la_profesor));
             viewHolder.fromEdit.setText(data.get(position).getFrom());
             viewHolder.date.setText(Utils.getDate(data.get(position).getDate().getTime(), "dd-MM hh:mm"));
-            viewHolder.cv.setCardBackgroundColor(context.getResources().getColor(R.color.green_warm));
+            viewHolder.lay.setBackground(context.getResources().getDrawable(R.drawable.click_green));
             viewHolder.cv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -97,6 +97,7 @@ public class ClientInboxMessagesAdapter extends RecyclerView.Adapter<ClientInbox
         TextView fromEdit;
         TextView date;
         LinearLayout layout;
+        LinearLayout lay;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -105,6 +106,7 @@ public class ClientInboxMessagesAdapter extends RecyclerView.Adapter<ClientInbox
             mesajText = itemView.findViewById(R.id.mesaj_text);
             fromText = itemView.findViewById(R.id.from_text);
             fromEdit = itemView.findViewById(R.id.from_edit);
+            lay = itemView.findViewById(R.id.lay);
             date = itemView.findViewById(R.id.date);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 StateListAnimator stateListAnimator = AnimatorInflater

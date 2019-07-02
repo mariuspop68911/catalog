@@ -92,15 +92,25 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/table_d"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/alertLayout"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/tabla_down"/>
+
     <ListView
         android:id="@+id/main_elev_lista"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:layout_below="@+id/alertLayout"
+        android:layout_below="@+id/table_d"
         android:divider="@android:color/transparent"
         android:dividerHeight="10dp"
-        android:padding="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:scrollbars="none" />
 
     <RelativeLayout

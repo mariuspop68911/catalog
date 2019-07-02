@@ -43,7 +43,7 @@ android:layout_height="wrap_content">
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/postedBy"
+            android:id="@+id/data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="23 apr 2018"

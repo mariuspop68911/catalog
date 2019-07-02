@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/list_view"
+    android:background="@drawable/click_yellow"
     android:alpha="0.6"
     android:orientation="vertical">
 
@@ -59,7 +59,7 @@
 
             <mehdi.sakout.fancybuttons.FancyButton
                 android:id="@+id/adaugaNota"
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 fancy:fb_borderColor="@color/fancy1"
                 fancy:fb_defaultColor="@color/fancy2"
@@ -71,7 +71,7 @@
 
             <mehdi.sakout.fancybuttons.FancyButton
                 android:id="@+id/adaugaAbsenta"
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 fancy:fb_borderColor="@color/fancy1"

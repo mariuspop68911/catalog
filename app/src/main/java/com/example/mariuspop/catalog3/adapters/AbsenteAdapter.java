@@ -85,7 +85,7 @@ public class AbsenteAdapter extends RecyclerView.Adapter<AbsenteAdapter.ViewHold
         }
         viewHolder.absentaText.setText(String.valueOf(absente.get(position).isMotivata() ? context.getResources().getString(R.string.absenta_motivata) :
                 context.getResources().getString(R.string.absenta_nemotivata)));
-        viewHolder.dataAbsenta.setText(String.valueOf(absente.get(position).getData()));
+        viewHolder.dataAbsenta.setText(Utils.getDate(absente.get(position).getData().getTime(), "dd-MM hh:mm"));
         viewHolder.cv.setTag(absente.get(position));
     }
 
@@ -100,8 +100,9 @@ public class AbsenteAdapter extends RecyclerView.Adapter<AbsenteAdapter.ViewHold
             for (Elev elev1 : clasa.getElevi()) {
                 if (elev1.getElevId() == elev.getElevId()) {
                     absente.remove(absentaToDelete);
-                    Utils.getAbsenteByYear(elev).remove(absentaToDelete);
-                    elev1.setAbsente(Utils.getAbsenteByYear(elev));
+                    ArrayList<Absenta> absentas = Utils.getAbsenteByYear(elev);
+                    absentas.remove(absentaToDelete);
+                    elev1.setAbsente(absentas);
                     AbsenteManager.getInstance().getAlarmManager().cancel(AbsenteManager.getInstance().getPendingIntents().get(absentaToDelete.getAbsentaId()));
                     break;
                 }

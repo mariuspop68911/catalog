@@ -80,15 +80,6 @@ public class ClientHomePresenter implements FirebaseCallbackClientElev, Firebase
         count = getUnseenNewsSize();
         view.invalidate();
 
-        /*ArrayList<String> news = getNews(clasa);
-        if (!news.isEmpty()) {
-            view.getNewsLyout().setVisibility(View.VISIBLE);
-            ClientNewsAdapter clientNewsAdapter = new ClientNewsAdapter(news, context);
-            view.getNewsList().setAdapter(clientNewsAdapter);
-        } else {
-            view.getNewsLyout().setVisibility(View.GONE);
-        }*/
-
         view.getLoadingPanel().setVisibility(View.GONE);
     }
 

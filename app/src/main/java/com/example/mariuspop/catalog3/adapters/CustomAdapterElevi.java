@@ -102,8 +102,8 @@ public class CustomAdapterElevi extends ArrayAdapter<Elev> {
                     public void onClick(View v) {
                         final Dialog dialog = new Dialog(activity);
                         dialog.setContentView(R.layout.add_absenta_dialog);
+                        dialog.setTitle("Adauga absenta");
                         View vi = dialog.getWindow().getDecorView();
-                        vi.setBackgroundResource(android.R.color.transparent);
                         FancyButton dialogButtonOk = dialog.findViewById(R.id.dialogButtonOK);
                         dialogButtonOk.setOnClickListener(new View.OnClickListener() {
                             @Override

@@ -23,7 +23,7 @@
     <string name="numele_materiei">Numele materiei</string>
     <string name="numele_elevului">Numele elevului</string>
     <string name="introdu_nota">Introdu nota</string>
-    <string name="absenta_mesaj">Esti sigur ca vrei sa adaugi o absenta?</string>
+    <string name="absenta_mesaj">Esti sigur ca vrei sa adaugi o absenta? Notificarea se va trimite in 15 minute catre parinte. Poti anula absenta in sectiunea de detalii ale elevului</string>
     <string name="anunt_mesaj">O notificare se va trimite catre fiecare parinte al acestei clase. Esti sigur ca vrei sa trimiti anuntul?</string>
     <string name="adauga_sms_gateway">Adauga numarul de telefon al SMSGateway-ului pe care vrei sa il folosesti:</string>
     <string name="adauga_sms_gateway2">Acest device va fi setat ca SMS Gateway(SMS-urile vor fi trimise de pe acest device). Introdu numarul de telfon al acestui device: </string>

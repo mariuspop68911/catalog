@@ -27,7 +27,7 @@
 
         <mehdi.sakout.fancybuttons.FancyButton
             android:id="@+id/dialogButtonCancel"
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             fancy:fb_borderColor="@color/fancy1"
             fancy:fb_defaultColor="@color/fancy2"
@@ -40,7 +40,7 @@
 
         <mehdi.sakout.fancybuttons.FancyButton
             android:id="@+id/dialogButtonOK"
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             fancy:fb_borderColor="@color/fancy1"

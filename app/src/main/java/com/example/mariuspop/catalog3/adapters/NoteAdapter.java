@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.mariuspop.catalog3.R;
+import com.example.mariuspop.catalog3.Utils;
 import com.example.mariuspop.catalog3.models.Nota;
 
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
         viewHolder.notaValue.setText(String.valueOf(employeeComments.get(position).getValue()));
+        viewHolder.data.setText(Utils.getDate(employeeComments.get(position).getData().getTime(), "dd-MM hh:mm"));
         if (employeeComments.get(position).isTeza()) {
             viewHolder.teza.setVisibility(View.VISIBLE);
         } else {
@@ -68,12 +70,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         CardView cv;
         TextView notaValue;
         TextView teza;
+        TextView data;
 
         ViewHolder(View itemView) {
             super(itemView);
             cv = itemView.findViewById(R.id.comment_cv);
             notaValue = itemView.findViewById(R.id.nota_text);
             teza = itemView.findViewById(R.id.nota_teza);
+            data = itemView.findViewById(R.id.data);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 StateListAnimator stateListAnimator = AnimatorInflater
                         .loadStateListAnimator(context, R.anim.animation);
